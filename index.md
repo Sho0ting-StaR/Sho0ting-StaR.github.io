@@ -6,3 +6,4 @@
 
 ## Projects
 - [lightgame](light-game)
+- [assignment2](battle-beasts)

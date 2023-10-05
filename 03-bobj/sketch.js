@@ -8,8 +8,8 @@ let ball = {
   r: 240,
   g: 12,
   b:40,
-  dx: 4,
-  dy: 3,
+  dx: -4,
+  dy: -3,
 };
 
 function setup() {
@@ -33,9 +33,15 @@ function moveBall(){
   ball.g = random(0,256);
   ball.b = random(0,256);
   if(ball.x >= windowWidth){
-    ball.x = 1;
+    ball.x =1;
+  }
+  if(ball.x <= 0){
+    ball.x =windowWidth;
   }
   if(ball.y >= windowHeight){
     ball.y = 1;
+  }
+  if(ball.y <= 0){
+    ball.y =windowHeight;
   }
 }
