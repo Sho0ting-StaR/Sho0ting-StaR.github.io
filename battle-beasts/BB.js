@@ -27,7 +27,9 @@ function setup() {
 
 function draw() {
   background(25);
-  console.log(yourTeam);
+  // console.log(yourTeam);
+  textSize(30);
+  text(yourTeam,100,100);
 }
 
 
