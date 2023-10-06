@@ -5,6 +5,8 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 let start = true;
+let activSlot = [one,two,three];
+let x=0;
 
 let yourTeam = {
   one: "blank",
@@ -42,6 +44,16 @@ let nice = {
   col: "red",
 };
 
+let StaR = {
+  name: "StaR",
+  speed: 78,
+  strength: 1.15,
+  defense: 160,
+  health: 300,
+  type: "normal",
+  col: "pink",
+};
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   yourTeam.one = structuredClone(space);
@@ -58,25 +70,37 @@ function draw() {
   else{
     background(60);
     textSize(30);
-    assignTeam();
+    assignTeam(activSlot[x]);
     offSprites();
   }
 }
 
-function assignTeam(){
+function assignTeam(x){
   if(keyIsDown(81)){ // q
-    yourTeam.one = structuredClone(Q);
+    yourTeam.x = structuredClone(Q);
     console.log(yourTeam);
+    activSlot +=1;
+
   }
   else if(keyIsDown(69)){ // e
-    yourTeam.one = structuredClone(nice);
+    yourTeam.x = structuredClone(nice);
     console.log(yourTeam);
+    activSlot +=1;
+  }
+  else if(keyIsDown(83)){ // s
+    yourTeam.x = structuredClone(StaR);
+    console.log(yourTeam);
+    activSlot +=1;
   }
 }
 
 function offSprites(){
   fill(yourTeam.one.col);
-  rect(width-20,height-20,20,20);
+  rect(width-75,height-25,20,20);
+  fill(yourTeam.two.col);
+  rect(width-50,height-25,20,20);
+  fill(yourTeam.three.col);
+  rect(width-25,height-25,20,20);
 }
 
 
