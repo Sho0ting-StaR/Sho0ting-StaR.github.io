@@ -26,10 +26,11 @@ function setup() {
 }
 
 function draw() {
-  background(25);
+  background(60);
   // console.log(yourTeam);
   textSize(30);
-  text(yourTeam,100,100);
+  console.log(yourTeam);
+  if(key)
 }
 
 
