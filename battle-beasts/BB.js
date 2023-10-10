@@ -6,9 +6,9 @@
 // - describe what you did to take this project "above and beyond"
 
 let yourTeam = ["1","2","3"];
-
+let slots = [1,2,3];
 let start = true;
-let activSlot = [yourTeam.one,yourTeam.two,yourTeam.three];
+let activSlot = [yourTeam[0],yourTeam[1],yourTeam[2]];
 let x=0;
 let n=0;
 
@@ -54,20 +54,15 @@ let StaR = {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  yourTeam.one = structuredClone(space);
-  yourTeam.two = structuredClone(space);
-  yourTeam.three = structuredClone(space);
+  yourTeam[0] = structuredClone(space);
+  yourTeam[1] = structuredClone(space);
+  yourTeam[2] = structuredClone(space);
   console.log(yourTeam);
 }
 function option(){
-  if(keyIsDown(49)){
-    x = 0;
-  }
-  if(keyIsDown(50)){
-    x = 1;
-  }
-  if(keyIsDown(51)){
-    x = 2;
+  if(key in slots){
+    x = int(key)  ;
+    console.log(x);
   }
 }
 
@@ -88,55 +83,26 @@ function draw() {
 }
 
 function assignTeam(n){
-  if(x === 0){
-    if(keyIsDown(81)){ // q
-      yourTeam.one = structuredClone(Q);
-      console.log(yourTeam);
-    }
-    else if(keyIsDown(69)){ // e
-      yourTeam.one = structuredClone(nice);
-      console.log(yourTeam);
-    }
-    else if(keyIsDown(83)){ // s
-      yourTeam.one = structuredClone(StaR);
-      console.log(yourTeam);
-    }
+  if(keyIsDown(81)){ // q
+    yourTeam[x] = structuredClone(Q);
+    console.log(yourTeam);
   }
-  if(x === 1){
-    if(keyIsDown(81)){ // q
-      yourTeam.two = structuredClone(Q);
-      console.log(yourTeam);
-    }
-    else if(keyIsDown(69)){ // e
-      yourTeam.two = structuredClone(nice);
-      console.log(yourTeam);
-    }
-    else if(keyIsDown(83)){ // s
-      yourTeam.two = structuredClone(StaR);
-      console.log(yourTeam);
-    }
+  else if(keyIsDown(69)){ // e
+    yourTeam[x] = structuredClone(nice);
+    console.log(yourTeam);
   }
-  if(x === 2){
-    if(keyIsDown(81)){ // q
-      yourTeam.three = structuredClone(Q);
-      console.log(yourTeam);
-    }
-    else if(keyIsDown(69)){ // e
-      yourTeam.three = structuredClone(nice);
-      console.log(yourTeam);
-    }
-    else if(keyIsDown(83)){ // s
-      yourTeam.three = structuredClone(StaR);
-      console.log(yourTeam);
-    }
+  else if(keyIsDown(83)){ // s
+    yourTeam[x] = structuredClone(StaR);
+    console.log(yourTeam);
   }
+
 }
 function offSprites () {
-  fill(yourTeam.one.col);
+  fill(yourTeam[0].col);
   rect(width-75,height-25,20,20);
-  fill(yourTeam.two.col);
+  fill(yourTeam[1].col);
   rect(width-50,height-25,20,20);
-  fill(yourTeam.three.col);
+  fill(yourTeam[2].col);
   rect(width-25,height-25,20,20);
 }
 
