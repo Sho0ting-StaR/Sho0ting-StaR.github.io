@@ -5,15 +5,12 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-let yourTeam = {
-  one: "blank",
-  two: "blank",
-  three: "blank",
-};
+let yourTeam = ["1","2","3"];
 
 let start = true;
 let activSlot = [yourTeam.one,yourTeam.two,yourTeam.three];
 let x=0;
+let n=0;
 
 let space = {
   name: "non1",
@@ -90,65 +87,51 @@ function draw() {
   }
 }
 
-// function assignTeam(n){
-//   if(keyIsDown(81)){ // q
-//     n = structuredClone(Q);
-//     console.log(yourTeam);
-//   }
-//   else if(keyIsDown(69)){ // e
-//     n = structuredClone(nice);
-//     console.log(yourTeam);
-//   }
-//   else if(keyIsDown(83)){ // s
-//     n = structuredClone(StaR);
-//     console.log(yourTeam);
-//   }
-// }
 function assignTeam(n){
-  if(n === 0){
+  if(x === 0){
     if(keyIsDown(81)){ // q
-      MyTeam.one = structuredClone(Q);
+      yourTeam.one = structuredClone(Q);
       console.log(yourTeam);
     }
     else if(keyIsDown(69)){ // e
-      MyTeam.one = structuredClone(nice);
+      yourTeam.one = structuredClone(nice);
       console.log(yourTeam);
     }
     else if(keyIsDown(83)){ // s
-      MyTeam.one = structuredClone(StaR);
+      yourTeam.one = structuredClone(StaR);
       console.log(yourTeam);
     }
-}
-  if(n === 1){
+  }
+  if(x === 1){
     if(keyIsDown(81)){ // q
-      MyTeam.two = structuredClone(Q);
+      yourTeam.two = structuredClone(Q);
       console.log(yourTeam);
     }
     else if(keyIsDown(69)){ // e
-      MyTeam.two = structuredClone(nice);
+      yourTeam.two = structuredClone(nice);
       console.log(yourTeam);
     }
     else if(keyIsDown(83)){ // s
-      MyTeam.two = structuredClone(StaR);
+      yourTeam.two = structuredClone(StaR);
       console.log(yourTeam);
     }
-}
-  if(n === 2){
+  }
+  if(x === 2){
     if(keyIsDown(81)){ // q
-      MyTeam.three = structuredClone(Q);
+      yourTeam.three = structuredClone(Q);
       console.log(yourTeam);
     }
     else if(keyIsDown(69)){ // e
-      MyTeam.three = structuredClone(nice);
+      yourTeam.three = structuredClone(nice);
       console.log(yourTeam);
     }
     else if(keyIsDown(83)){ // s
-      MyTeam.three = structuredClone(StaR);
+      yourTeam.three = structuredClone(StaR);
       console.log(yourTeam);
     }
+  }
 }
-}
-function offSprites(){
+function offSprites () {
   fill(yourTeam.one.col);
   rect(width-75,height-25,20,20);
   fill(yourTeam.two.col);
@@ -156,3 +139,4 @@ function offSprites(){
   fill(yourTeam.three.col);
   rect(width-25,height-25,20,20);
 }
+
