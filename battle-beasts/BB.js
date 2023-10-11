@@ -12,6 +12,11 @@ let activSlot = [yourTeam[0],yourTeam[1],yourTeam[2]];
 let x=0;
 let n=0;
 
+let active;
+let actions;
+let yourTurn = true;
+let switchmenu=true;
+
 let space = {
   name: "non1",
   speed: "non2",
@@ -20,6 +25,7 @@ let space = {
   health: "non5",
   type: "non6",
   col: "white",
+  stat: [],
 };
 
 let Q = {
@@ -30,6 +36,7 @@ let Q = {
   health: 500,
   type: "normal",
   col: "purple",
+  stat: [],
 };
 
 let nice = {
@@ -40,6 +47,7 @@ let nice = {
   health: 10,
   type: "not like other guys",
   col: "red",
+  stat: [],
 };
 
 let StaR = {
@@ -50,6 +58,18 @@ let StaR = {
   health: 300,
   type: "normal",
   col: "pink",
+  stat: [],
+};
+
+let DizZy = {
+  name: "DizZy",
+  speed: 113,
+  strength: 1.15,
+  defense: 30,
+  health: 270,
+  type: "normal",
+  col: "yellow",
+  stat: [],
 };
 
 function setup() {
@@ -60,8 +80,8 @@ function setup() {
   console.log(yourTeam);
 }
 function option(){
-  if(key in slots){
-    x = int(key)  ;
+  x = int(key);
+  if(arrayCheck(x,slots)){
     console.log(x);
   }
 }
@@ -71,6 +91,7 @@ function draw() {
     background(150);
     if(keyIsDown(32)){
       start = false;
+
     }
   }
   else{
@@ -84,25 +105,57 @@ function draw() {
 
 function assignTeam(n){
   if(keyIsDown(81)){ // q
-    yourTeam[x] = structuredClone(Q);
-    console.log(yourTeam);
+    yourTeam[x-1] = structuredClone(Q);
+    console.log(x,yourTeam);
   }
   else if(keyIsDown(69)){ // e
-    yourTeam[x] = structuredClone(nice);
-    console.log(yourTeam);
+    yourTeam[x-1] = structuredClone(nice);
+    console.log(x,yourTeam);
   }
   else if(keyIsDown(83)){ // s
-    yourTeam[x] = structuredClone(StaR);
-    console.log(yourTeam);
+    yourTeam[x-1] = structuredClone(StaR);
+    console.log(x,yourTeam);
+  }
+  else if(keyIsDown(68)){ // d
+    yourTeam[x-1] = structuredClone(DizZy);
+    console.log(x,yourTeam);
   }
 
 }
 function offSprites () {
-  fill(yourTeam[0].col);
-  rect(width-75,height-25,20,20);
-  fill(yourTeam[1].col);
-  rect(width-50,height-25,20,20);
-  fill(yourTeam[2].col);
-  rect(width-25,height-25,20,20);
+  if(!switchmenu){
+    fill(yourTeam[0].col);
+    rect(width-75,height-25,20,20);
+    fill(yourTeam[1].col);
+    rect(width-50,height-25,20,20);
+    fill(yourTeam[2].col);
+    rect(width-25,height-25,20,20);
+  }
+  else if(switchmenu){
+    fill(yourTeam[0].col);
+    rect(width/2-55,height/2,50,50);
+    fill(yourTeam[1].col);
+    rect(width/2,height/2,50,50);
+    fill(yourTeam[2].col);
+    rect(width/2+55,height/2,50,50);
+  }
 }
 
+function release(slot,cost){
+  if(actions-cost>0){
+    if(keyIsDown(83)){
+      if(yourTurn){
+
+        active = slot-1;
+      }
+    }
+  }
+}
+
+function arrayCheck(val,arr){
+  for(let i=0;i<=arr.length;i++){
+    if(val ===arr[i]){
+      return true;
+    }
+  }
+}
