@@ -11,8 +11,6 @@ let start = true;
 let activSlot = [yourTeam[0],yourTeam[1],yourTeam[2]];
 let x=0;
 let n=0;
-
-let active;
 let actions=3;
 let yourTurn = true;
 let switchmenu=true;
@@ -71,6 +69,8 @@ let DizZy = {
   col: "yellow",
   stat: [],
 };
+
+let active = yourTeam[0];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -162,7 +162,7 @@ function mouseClicked(){
 }
 
 function release(slot,cost){
-  if(actions-cost>0){
+  if(actions-cost>0&&!switchmenu){
     if(keyIsDown(83)){
       if(yourTurn){
 
@@ -187,5 +187,13 @@ function arena(){
     ellipse(width/3,height/1.5,400,150);
     ellipse(width-width/3,height/3,340,110);
     stroke(30);
+    drawMe()
+  }
+}
+function drawMe(){
+  if(!start&&!switchmenu){
+    fill(yourTeam[active].col);
+    rect(width/3-50,height/1.5-80,120,120);
+    rect(width-yourTeam[active].health*2,height-100,yourTeam[active].health*2,30);
   }
 }
