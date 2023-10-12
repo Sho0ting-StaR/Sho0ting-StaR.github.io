@@ -13,7 +13,7 @@ let x=0;
 let n=0;
 
 let active;
-let actions;
+let actions=3;
 let yourTurn = true;
 let switchmenu=true;
 
@@ -96,31 +96,37 @@ function draw() {
   }
   else{
     background(60);
+    arena();
     textSize(30);
     assignTeam(activSlot[x]);
     offSprites();
     option();
+    fill(10);
+    textSize(30);
+    text(actions,50,50);
+    // switching();
   }
 }
 
 function assignTeam(n){
-  if(keyIsDown(81)){ // q
-    yourTeam[x-1] = structuredClone(Q);
-    console.log(x,yourTeam);
+  if(switchmenu){
+    if(keyIsDown(81)){ // q
+      yourTeam[x-1] = structuredClone(Q);
+      console.log(x,yourTeam);
+    }
+    else if(keyIsDown(69)){ // e
+      yourTeam[x-1] = structuredClone(nice);
+      console.log(x,yourTeam);
+    }
+    else if(keyIsDown(83)){ // s
+      yourTeam[x-1] = structuredClone(StaR);
+      console.log(x,yourTeam);
+    }
+    else if(keyIsDown(68)){ // d
+      yourTeam[x-1] = structuredClone(DizZy);
+      console.log(x,yourTeam);
+    }
   }
-  else if(keyIsDown(69)){ // e
-    yourTeam[x-1] = structuredClone(nice);
-    console.log(x,yourTeam);
-  }
-  else if(keyIsDown(83)){ // s
-    yourTeam[x-1] = structuredClone(StaR);
-    console.log(x,yourTeam);
-  }
-  else if(keyIsDown(68)){ // d
-    yourTeam[x-1] = structuredClone(DizZy);
-    console.log(x,yourTeam);
-  }
-
 }
 function offSprites () {
   if(!switchmenu){
@@ -133,11 +139,25 @@ function offSprites () {
   }
   else if(switchmenu){
     fill(yourTeam[0].col);
-    rect(width/2-55,height/2,50,50);
+    rect(width/2-75,height/2,60,60);
     fill(yourTeam[1].col);
-    rect(width/2,height/2,50,50);
+    rect(width/2,height/2,60,60);
     fill(yourTeam[2].col);
-    rect(width/2+55,height/2,50,50);
+    rect(width/2+75,height/2,60,60);
+    fill(200,20,50);
+    rect(width-80,0,80,80);
+  }
+}
+
+function mouseClicked(){
+  if(switchmenu){
+    fill(240);
+    line(width-80,0,width,80);
+    line(width-80,80,width,0);
+      if(mouseX>width-80&&mouseY<80){
+        switchmenu=false;
+        console.log("switchmenu false");
+      }
   }
 }
 
@@ -157,5 +177,15 @@ function arrayCheck(val,arr){
     if(val ===arr[i]){
       return true;
     }
+  }
+}
+
+function arena(){
+  if(!start&&!switchmenu){
+    fill(90);
+    noStroke();
+    ellipse(width/3,height/1.5,400,150);
+    ellipse(width-width/3,height/3,340,110);
+    stroke(30);
   }
 }
