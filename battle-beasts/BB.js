@@ -15,13 +15,15 @@ let actions=3;
 let yourTurn = true;
 let switchmenu=true;
 
+let enemyTeam = ["1","2","3"];
+
+
 let space = {
   name: "non1",
   speed: "non2",
   strength: "non3",
   defense: "non4",
   health: "non5",
-  type: "non6",
   col: "white",
   stat: [],
 };
@@ -32,9 +34,8 @@ let Q = {
   strength: 1.21,
   defense: 48,
   health: 500,
-  type: "normal",
   col: "purple",
-  stat: [],
+  stat: ["normal"],
 };
 
 let nice = {
@@ -43,9 +44,8 @@ let nice = {
   strength: 0.6,
   defense: 10,
   health: 10,
-  type: "not like other guys",
   col: "red",
-  stat: [],
+  stat: ["not like other guys"],
 };
 
 let StaR = {
@@ -54,9 +54,8 @@ let StaR = {
   strength: 1.15,
   defense: 160,
   health: 300,
-  type: "normal",
   col: "pink",
-  stat: [],
+  stat: ["normal"],
 };
 
 let DizZy = {
@@ -65,19 +64,27 @@ let DizZy = {
   strength: 1.15,
   defense: 30,
   health: 270,
-  type: "normal",
   col: "yellow",
-  stat: [],
+  stat: ["normal"],
 };
 
+let catalog = [Q,nice,StaR,DizZy];
+
 let active = yourTeam[0];
+let Eactive = enemyTeam[0];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   yourTeam[0] = structuredClone(space);
   yourTeam[1] = structuredClone(space);
   yourTeam[2] = structuredClone(space);
-  console.log(yourTeam);
+
+  for(let i=0;i < enemyTeam.length;i++){
+    enemyTeam[i] = structuredClone(random(catalog));
+    console.log(enemyTeam[i]);
+  }
+
+  // Eactive = enemyTeam[random(enemyTeam)];
 }
 function option(){
   x = int(key);
@@ -104,7 +111,7 @@ function draw() {
     fill(10);
     textSize(30);
     text(actions,50,50);
-    // switching();
+    battle();
   }
 }
 
@@ -112,19 +119,15 @@ function assignTeam(n){
   if(switchmenu){
     if(keyIsDown(81)){ // q
       yourTeam[x-1] = structuredClone(Q);
-      console.log(x,yourTeam);
     }
     else if(keyIsDown(69)){ // e
       yourTeam[x-1] = structuredClone(nice);
-      console.log(x,yourTeam);
     }
     else if(keyIsDown(83)){ // s
       yourTeam[x-1] = structuredClone(StaR);
-      console.log(x,yourTeam);
     }
     else if(keyIsDown(68)){ // d
       yourTeam[x-1] = structuredClone(DizZy);
-      console.log(x,yourTeam);
     }
   }
 }
@@ -151,19 +154,22 @@ function offSprites () {
 
 function mouseClicked(){
   if(switchmenu){
-    fill(240);
-    line(width-80,0,width,80);
-    line(width-80,80,width,0);
-      if(mouseX>width-80&&mouseY<80){
-        switchmenu=false;
-        console.log("switchmenu false");
-      }
+    // fill(240);
+    // line(width-80,0,width,80);
+    // line(width-80,80,width,0);
+    if(mouseX>width-80&&mouseY<80){
+      switchmenu=false;
+    }
+  }
+  if(!switchmenu&&yourTurn&&mouseY>height-150){
+    enemyTeam[Eactive-1].health-=25;
+    yourTurn = false;
   }
 }
 
 function release(slot,cost){
   if(actions-cost>0&&!switchmenu){
-    if(keyIsDown(83)){
+    if(keyIsDown(83)){  // s
       if(yourTurn){
 
         active = slot-1;
@@ -185,15 +191,30 @@ function arena(){
     fill(90);
     noStroke();
     ellipse(width/3,height/1.5,400,150);
-    ellipse(width-width/3,height/3,340,110);
+    ellipse(width-width/3,height/3,300,110);
     stroke(30);
-    drawMe()
+    drawBeasts();
   }
 }
-function drawMe(){
+function drawBeasts(){
   if(!start&&!switchmenu){
-    fill(yourTeam[active].col);
+    fill(yourTeam[active-1].col);
     rect(width/3-50,height/1.5-80,120,120);
-    rect(width-yourTeam[active].health*2,height-100,yourTeam[active].health*2,30);
+    rect(width-yourTeam[active-1].health*2,height-100,yourTeam[active-1].health*2,30);
+    fill(enemyTeam[Eactive-1].col);
+    rect(width-width/2.55+50,height/3-60,80,80);
+    rect(0,100,enemyTeam[Eactive-1].health*2,30);
   }
+}
+
+function battle(){
+  if(!start&&!switchmenu){
+    if(yourTurn){
+      fill(130);
+      rect(0,height-height/6,width/4,height/2);
+      
+    }
+    console.log(enemyTeam[Eactive-1].health);
+  }
+
 }
