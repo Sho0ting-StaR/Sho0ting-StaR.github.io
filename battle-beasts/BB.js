@@ -24,6 +24,7 @@ let space = {
   strength: "non3",
   defense: "non4",
   health: "non5",
+  Mhealth: "non6",
   col: "white",
   stat: [],
 };
@@ -34,6 +35,7 @@ let Q = {
   strength: 1.21,
   defense: 48,
   health: 500,
+  Mhealth: 500,
   col: "purple",
   stat: ["normal"],
 };
@@ -44,6 +46,7 @@ let nice = {
   strength: 0.6,
   defense: 10,
   health: 10,
+  Mhealth: 10,
   col: "red",
   stat: ["not like other guys"],
 };
@@ -54,6 +57,7 @@ let StaR = {
   strength: 1.15,
   defense: 160,
   health: 300,
+  Mhealth: 300,
   col: "pink",
   stat: ["normal"],
 };
@@ -64,8 +68,20 @@ let DizZy = {
   strength: 1.15,
   defense: 30,
   health: 270,
+  Mhealth: 270,
   col: "yellow",
   stat: ["normal"],
+};
+
+let pHoenix = {
+  name: "pHoenix",
+  speed: 113,
+  strength: 1.15,
+  defense: 30,
+  health: 270,
+  Mhealth: 270,
+  col: "orange",
+  stat: ["fire"],
 };
 
 let catalog = [Q,nice,StaR,DizZy];
@@ -163,6 +179,7 @@ function mouseClicked(){
   }
   if(!switchmenu&&yourTurn&&mouseY>height-150){
     enemyTeam[Eactive-1].health-=25;
+
     yourTurn = false;
   }
 }
@@ -178,13 +195,20 @@ function release(slot,cost){
   }
 }
 
-function arrayCheck(val,arr){
+function arrayCheck(val,arr){ 
   for(let i=0;i<=arr.length;i++){
     if(val ===arr[i]){
       return true;
     }
   }
 }
+// function arrayGrab(val,arr,lmnt){ // ie. getting original values of beast 
+//   for(let i=0;i<arr.length;i++){
+//     if(val ===arr[i]){
+//       return arr.lmnt;
+//     }
+//   }
+// }
 
 function arena(){
   if(!start&&!switchmenu){
@@ -198,11 +222,22 @@ function arena(){
 }
 function drawBeasts(){
   if(!start&&!switchmenu){
-    fill(yourTeam[active-1].col);
+    fill(yourTeam[active-1].col); // sprite
     rect(width/3-50,height/1.5-80,120,120);
-    rect(width-yourTeam[active-1].health*2,height-100,yourTeam[active-1].health*2,30);
+
+    fill(60); // healthbar
+    rect(width-100,height-100,100,30);
     fill(enemyTeam[Eactive-1].col);
+    rect(width-yourTeam[active-1].health*2,height-100,yourTeam[active-1].health*2,30);
+
+    rect(width-100,height-100,100*yourTeam[active-1].health/yourTeam[active-1].Mhealth,30);
+
+    fill(enemyTeam[Eactive-1].col); // enemy sprite
     rect(width-width/2.55+50,height/3-60,80,80);
+
+    fill(60); // enemy healthbar
+    rect(0,100,100,30);
+    fill(enemyTeam[Eactive-1].col);
     rect(0,100,enemyTeam[Eactive-1].health*2,30);
   }
 }
@@ -210,10 +245,14 @@ function drawBeasts(){
 function battle(){
   if(!start&&!switchmenu){
     if(yourTurn){
+      stroke(30);
       fill(130);
-      rect(0,height-height/6,width/4,height/2);
-      
+      rect(0,height-100,width/5,100);
+      rect(width/5,height-100,width/5,100);
+      rect(0,height-200,width/5,100);
+      rect(width/5,height-200,width/5,100);
     }
+    noStroke();
     console.log(enemyTeam[Eactive-1].health);
   }
 
