@@ -177,8 +177,16 @@ function mouseClicked(){
       switchmenu=false;
     }
   }
+
   if(!switchmenu&&yourTurn&&mouseY>height-150){
-    enemyTeam[Eactive-1].health-=25;
+    let damage = 25;
+    if(random(yourTeam[active-1].speed/2,yourTeam[active-1].speed)>random(enemyTeam[Eactive-1].speed/2,enemyTeam[Eactive-1].speed)){
+      let totaldmg = yourTeam[active-1].strength * damage - enemyTeam[Eactive-1].defense/2;
+      if(totaldmg>0){
+        enemyTeam[Eactive-1].health-= totaldmg;
+        yourTurn = false;
+      }
+    }
 
     yourTurn = false;
   }
@@ -218,32 +226,6 @@ function arena(){
     ellipse(width-width/3,height/3,300,110);
     stroke(30);
     drawBeasts();
-  }
-}
-function drawBeasts(){
-  if(!start&&!switchmenu){
-    fill(yourTeam[active-1].col); // sprite
-    rect(width/3-50,height/1.5-80,120,120);
-
-    fill(60); // healthbar
-    rect(width-100,height-100,100,30);
-    fill(enemyTeam[Eactive-1].col);
-    rect(width-yourTeam[active-1].health*2,height-100,yourTeam[active-1].health*2,30);
-
-    rect(width-100,height-100,100*yourTeam[active-1].health/yourTeam[active-1].Mhealth,30);
-
-    fill(enemyTeam[Eactive-1].col); // enemy sprite
-    rect(width-width/2.55+50,height/3-60,80,80);
-
-    fill(60); // enemy healthbar
-    rect(0,100,100,30);
-    fill(enemyTeam[Eactive-1].col);
-    rect(0,100,enemyTeam[Eactive-1].health*2,30);
-  }
-}
-
-function battle(){
-  if(!start&&!switchmenu){
     if(yourTurn){
       stroke(30);
       fill(130);
@@ -255,5 +237,48 @@ function battle(){
     noStroke();
     console.log(enemyTeam[Eactive-1].health);
   }
+}
+function drawBeasts(){
+  if(!start&&!switchmenu){
+    fill(yourTeam[active-1].col); // sprite
+    rect(width/3-50,height/1.5-80,120,120);
 
+    fill(60); // healthbar
+    rect(width-100,height-100,100,30);
+    rect(width-100,height-100,100*yourTeam[active-1].health/yourTeam[active-1].Mhealth,30);
+    fill(yourTeam[active-1].col);
+
+    rect(width-100,height-100,100*yourTeam[active-1].health/yourTeam[active-1].Mhealth,30);
+
+
+    fill(enemyTeam[Eactive-1].col); // enemy sprite
+    rect(width-width/2.55+50,height/3-60,80,80);
+
+    fill(60); // enemy healthbar
+    rect(0,100,100,30);
+    fill(enemyTeam[Eactive-1].col);
+    rect(0,100,100*enemyTeam[Eactive-1].health/enemyTeam[Eactive-1].Mhealth,30);
+    text(enemyTeam[Eactive-1].health,0, 180);
+  }
+}
+
+function battle(){ // drawing arena details
+  if(!start&&!switchmenu){
+    if(!yourTurn){
+      if(enemyTeam[Eactive-1].health<=0){
+        enemyTeam.splice(enemyTeam.indexOf[Eactive-1],1);
+        Eactive = enemyTeam[random(0,enemyTeam.length)];
+      }
+      else{
+        let damage = 30;
+        if(random(enemyTeam[Eactive-1].speed/2,enemyTeam[Eactive-1].speed)>random(yourTeam[active-1].speed/2,yourTeam[active-1].speed)){
+          let totaldmg = enemyTeam[Eactive-1].strength * damage - yourTeam[active-1].defense/2;
+          if(totaldmg>0){
+            yourTeam[active-1].health-= totaldmg;
+            yourTurn = true;
+          }
+        }
+      }
+    }
+  }
 }
