@@ -170,9 +170,6 @@ function offSprites () {
 
 function mouseClicked(){
   if(switchmenu){
-    // fill(240);
-    // line(width-80,0,width,80);
-    // line(width-80,80,width,0);
     if(mouseX>width-80&&mouseY<80){
       switchmenu=false;
     }
@@ -184,13 +181,17 @@ function mouseClicked(){
       let totaldmg = YT[active-1].str * dmg - ET[Eactive-1].def/2;
       if(totaldmg>0){
         ET[Eactive-1].hp-= totaldmg;
-        yourTurn = false;
+        YT = false;
       }
     }
-
-    yourTurn = false;
+  
+    else{
+      console.log("youre too slow");
+      YT = false;
+    }
   }
 }
+
 
 function release(slot,cost){
   if(actions-cost>0&&!switchmenu){
@@ -210,13 +211,6 @@ function arrayCheck(val,arr){
     }
   }
 }
-// function arrayGrab(val,arr,lmnt){ // ie. getting original values of beast 
-//   for(let i=0;i<arr.length;i++){
-//     if(val ===arr[i]){
-//       return arr.lmnt;
-//     }
-//   }
-// }
 
 function arena(){
   if(!start&&!switchmenu){
@@ -235,11 +229,17 @@ function arena(){
       rect(width/5,height-200,width/5,100);
     }
     noStroke();
-    console.log(ET[Eactive-1].health);
   }
 }
 function drawBeasts(){
   if(!start&&!switchmenu){
+    if(ET[Eactive-1].hp<=0){ // switch enemy
+      console.log(ET);
+      ET.indexOf(Eactive-1);
+      ET.splice(ET.indexOf(Eactive-1,1));
+      Eactive = ET[random(0,ET.length)];
+      console.log(ET);
+    }
     fill(YT[active-1].col); // sprite
     rect(width/3-50,height/1.5-80,120,120);
 
@@ -247,9 +247,7 @@ function drawBeasts(){
     rect(width-100,height-100,100,30);
     rect(width-100,height-100,100*YT[active-1].hp/YT[active-1].Mhp,30);
     fill(YT[active-1].col);
-
     rect(width-100,height-100,100*YT[active-1].hp/YT[active-1].Mhp,30);
-
 
     fill(ET[Eactive-1].col); // enemy sprite
     rect(width-width/2.55+50,height/3-60,80,80);
@@ -262,7 +260,7 @@ function drawBeasts(){
   }
 }
 
-function battle(){ // drawing arena details
+function battle(){ // enemy turn
   if(!start&&!switchmenu){
     if(!yourTurn){
       if(ET[Eactive-1].hp<=0){
