@@ -14,9 +14,7 @@ let n=0;
 let actions=3;
 let yourTurn = true;
 let switchmenu=true;
-
 let ET = ["1","2","3"];
-
 
 let space = {
   name: "non1",
@@ -34,8 +32,8 @@ let Q = {
   spd: 98,
   str: 1.21,
   def: 48,
-  hp: 500,
-  Mhp: 500,
+  hp: 245,
+  Mhp: 245,
   col: "purple",
   stat: ["normal"],
 };
@@ -53,11 +51,11 @@ let nice = {
 
 let StaR = {
   name: "StaR",
-  spd: 78,
-  str: 1.15,
+  spd: 83,
+  str: 0.90,
   def: 160,
-  hp: 300,
-  Mhp: 300,
+  hp: 200,
+  Mhp: 200,
   col: "pink",
   stat: ["normal"],
 };
@@ -67,8 +65,8 @@ let DizZy = {
   spd: 113,
   str: 1.15,
   def: 30,
-  hp: 270,
-  Mhp: 270,
+  hp: 230,
+  Mhp: 230,
   col: "yellow",
   stat: ["normal"],
 };
@@ -84,8 +82,29 @@ let pHoenix = {
   stat: ["fire"],
 };
 
-let catalog = [Q,nice,StaR,DizZy];
+let sapPoison = {
+  name: "sapPoison",
+  spd: 70,
+  str: 1.10,
+  def: 70,
+  hp: 310,
+  Mhp: 310,
+  col: "green",
+  stat: ["poison"],
+};
 
+let Mt_elephant = {
+  name: "Mt. elephant",
+  spd: 53,
+  str: 1,
+  def: 150,
+  hp: 460,
+  Mhp: 460,
+  col: 87,
+  stat: ["normal"],
+};
+
+let catalog = [Q,nice,StaR,DizZy,pHoenix,sapPoison,Mt_elephant];
 let active = YT[0];
 let Eactive = ET[0];
 
@@ -97,10 +116,9 @@ function setup() {
 
   for(let i=0;i < ET.length;i++){
     ET[i] = structuredClone(random(catalog));
-    console.log(ET[i]);
+    // console.log(ET[i]);
   }
 
-  // Eactive = enemyTeam[random(enemyTeam)];
 }
 function option(){
   x = int(key);
@@ -145,6 +163,15 @@ function assignTeam(n){
     else if(keyIsDown(68)){ // d
       YT[x-1] = structuredClone(DizZy);
     }
+    else if(keyIsDown(65)){ // d
+      YT[x-1] = structuredClone(pHoenix);
+    }
+    else if(keyIsDown(90)){ // d
+      YT[x-1] = structuredClone(sapPoison);
+    }
+    else if(keyIsDown(88)){ // d
+      YT[x-1] = structuredClone(Mt_elephant);
+    }
   }
 }
 function offSprites () {
@@ -181,13 +208,13 @@ function mouseClicked(){
       let totaldmg = YT[active-1].str * dmg - ET[Eactive-1].def/2;
       if(totaldmg>0){
         ET[Eactive-1].hp-= totaldmg;
-        YT = false;
+        yourTurn = false;
       }
     }
   
     else{
       console.log("youre too slow");
-      YT = false;
+      yourTurn = false;
     }
   }
 }
@@ -234,11 +261,11 @@ function arena(){
 function drawBeasts(){
   if(!start&&!switchmenu){
     if(ET[Eactive-1].hp<=0){ // switch enemy
-      console.log(ET);
+      // console.log(ET);
       ET.indexOf(Eactive-1);
       ET.splice(ET.indexOf(Eactive-1,1));
       Eactive = ET[random(0,ET.length)];
-      console.log(ET);
+      // console.log(ET);
     }
     fill(YT[active-1].col); // sprite
     rect(width/3-50,height/1.5-80,120,120);
@@ -267,14 +294,12 @@ function battle(){ // enemy turn
         ET.splice(ET.indexOf[Eactive-1],1);
         Eactive = ET[random(0,ET.length)];
       }
-      else{
-        let dmg = 20;
-        if(random(ET[Eactive-1].spd/2,ET[Eactive-1].spd)>random(YT[active-1].spd/2,YT[active-1].spd)){
-          let totaldmg = ET[Eactive-1].str * dmg - YT[active-1].def/2;
-          if(totaldmg>0){
-            YT[active-1].hp-= totaldmg;
-            yourTurn = true;
-          }
+      let dmg = 20;
+      if(random(ET[Eactive-1].spd/2,ET[Eactive-1].spd)>random(YT[active-1].spd/2,YT[active-1].spd)){
+        let totaldmg = ET[Eactive-1].str * dmg - YT[active-1].def/2;
+        if(totaldmg>0){
+          YT[active-1].hp-= totaldmg;
+          yourTurn = true;
         }
       }
     }
