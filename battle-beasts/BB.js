@@ -16,7 +16,7 @@ let yourTurn = true;
 let switchmenu=true;
 let ET = ["1","2","3"];
 
-let space = {
+let space = { // all beast choices
   name: "non1",
   spd: "non2",
   str: "non3",
@@ -26,7 +26,6 @@ let space = {
   col: "white",
   stat: [],
 };
-
 let Q = {
   name: "Q",
   spd: 98,
@@ -37,7 +36,6 @@ let Q = {
   col: "purple",
   stat: ["normal"],
 };
-
 let nice = {
   name: "Q",
   spd: 210,
@@ -48,7 +46,6 @@ let nice = {
   col: "red",
   stat: ["not like other guys"],
 };
-
 let StaR = {
   name: "StaR",
   spd: 83,
@@ -59,7 +56,6 @@ let StaR = {
   col: "pink",
   stat: ["normal"],
 };
-
 let DizZy = {
   name: "DizZy",
   spd: 113,
@@ -70,7 +66,6 @@ let DizZy = {
   col: "yellow",
   stat: ["normal"],
 };
-
 let pHoenix = {
   name: "pHoenix",
   spd: 113,
@@ -81,7 +76,6 @@ let pHoenix = {
   col: "orange",
   stat: ["fire"],
 };
-
 let sapPoison = {
   name: "sapPoison",
   spd: 70,
@@ -92,7 +86,6 @@ let sapPoison = {
   col: "green",
   stat: ["poison"],
 };
-
 let Mt_elephant = {
   name: "Mt. elephant",
   spd: 53,
@@ -294,8 +287,8 @@ function battle(){ // enemy turn
         ET.splice(ET.indexOf[Eactive-1],1);
         Eactive = ET[random(0,ET.length)];
       }
-      let dmg = 20;
-      if(random(ET[Eactive-1].spd/2,ET[Eactive-1].spd)>random(YT[active-1].spd/2,YT[active-1].spd)){
+      else if (random(ET[Eactive-1].spd/2,ET[Eactive-1].spd)>random(YT[active-1].spd/2,YT[active-1].spd)){
+        let dmg = 20;
         let totaldmg = ET[Eactive-1].str * dmg - YT[active-1].def/2;
         if(totaldmg>0){
           YT[active-1].hp-= totaldmg;
