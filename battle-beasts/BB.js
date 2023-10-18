@@ -12,9 +12,11 @@ let activSlot = [YT[0],YT[1],YT[2]];
 let x=0;
 let n=0;
 let actions=3;
+let Eactions=3;
 let yourTurn = true;
 let switchmenu=true;
 let ET = ["1","2","3"];
+let swap=false;
 
 let space = { // all beast choices
   name: "non1",
@@ -97,7 +99,7 @@ let Mt_elephant = {
   stat: ["normal"],
 };
 
-let catalog = [Q,nice,StaR,DizZy,pHoenix,sapPoison,Mt_elephant];
+let catalog = [Q,nice,StaR,DizZy,pHoenix,sapPoison];
 let active = YT[0];
 let Eactive = ET[0];
 
@@ -122,23 +124,33 @@ function option(){
 
 function draw() {
   if(start === true){
-    background(150);
+    background(40,40,180);
+    fill("yellow");
+    text("BATTLE BEASTS",width/2,height/2);
     if(keyIsDown(32)){
       start = false;
-
     }
   }
   else{
     background(60);
-    arena();
-    textSize(30);
-    assignTeam(activSlot[x]);
+    if(!swap){
+      arena();
+      textSize(30);
+      assignTeam(activSlot[x]);
+      option();
+      fill(10);
+      textSize(30);
+      text(actions,50,50);
+      battle();
+  }
+  else if(swap){
+    background("purple");
+    if(keyIsDown){
+      release(key-1,1);
+    }
+  }
     offSprites();
-    option();
-    fill(10);
-    textSize(30);
-    text(actions,50,50);
-    battle();
+    // console.log(yourTurn);
   }
 }
 
@@ -176,7 +188,7 @@ function offSprites () {
     fill(YT[2].col);
     rect(width-25,height-25,20,20);
   }
-  else if(switchmenu){
+  else if(switchmenu||swap){
     fill(YT[0].col);
     rect(width/2-75,height/2,60,60);
     fill(YT[1].col);
@@ -195,32 +207,33 @@ function mouseClicked(){
     }
   }
 
-  if(!switchmenu&&yourTurn&&mouseY>height-150){
+  if(!switchmenu&&yourTurn&&mouseY>height-200&&mouseX<width/5){
     let dmg = 25;
-    if(random(YT[active-1].spd/2,YT[active-1].spd)>random(ET[Eactive-1].spd/2,ET[Eactive-1].spd)){
-      let totaldmg = YT[active-1].str * dmg - ET[Eactive-1].def/2;
-      if(totaldmg>0){
-        ET[Eactive-1].hp-= totaldmg;
-        yourTurn = false;
+    if(actions>0){
+      if(random(YT[active-1].spd/2,YT[active-1].spd)>random(ET[Eactive-1].spd/2,ET[Eactive-1].spd)){
+        let totaldmg = YT[active-1].str * dmg - ET[Eactive-1].def/2;
+        if(totaldmg>0){
+          ET[Eactive-1].hp-= totaldmg;
+        }
       }
+      actions -=1;
     }
-  
     else{
       console.log("youre too slow");
       yourTurn = false;
+      Eactions = 3;
     }
+  }
+  if(!switchmenu&&yourTurn&&mouseY>height-200&&mouseX>width/5&&mouseX<2*width/5){
+    swap = true;
   }
 }
 
-
 function release(slot,cost){
-  if(actions-cost>0&&!switchmenu){
-    if(keyIsDown(83)){  // s
-      if(yourTurn){
-
-        active = slot-1;
-      }
-    }
+  if(actions-cost>=0&&!switchmenu){
+      active = slot +1;
+      swap = false;
+      actions -=cost;
   }
 }
 
@@ -254,11 +267,7 @@ function arena(){
 function drawBeasts(){
   if(!start&&!switchmenu){
     if(ET[Eactive-1].hp<=0){ // switch enemy
-      // console.log(ET);
-      ET.indexOf(Eactive-1);
-      ET.splice(ET.indexOf(Eactive-1,1));
-      Eactive = ET[random(0,ET.length)];
-      // console.log(ET);
+      Eactive +=1;
     }
     fill(YT[active-1].col); // sprite
     rect(width/3-50,height/1.5-80,120,120);
@@ -282,19 +291,23 @@ function drawBeasts(){
 
 function battle(){ // enemy turn
   if(!start&&!switchmenu){
-    if(!yourTurn){
-      if(ET[Eactive-1].hp<=0){
-        ET.splice(ET.indexOf[Eactive-1],1);
-        Eactive = ET[random(0,ET.length)];
-      }
-      else if (random(ET[Eactive-1].spd/2,ET[Eactive-1].spd)>random(YT[active-1].spd/2,YT[active-1].spd)){
-        let dmg = 20;
+    if(ET[Eactive-1].hp<=0){
+      Eactive = ET[0];
+    }
+    if(!yourTurn&&Eactions>0){
+      if (random(ET[Eactive-1].spd/2,ET[Eactive-1].spd)>random(YT[active-1].spd/2,YT[active-1].spd)){
+        let dmg = 25;
         let totaldmg = ET[Eactive-1].str * dmg - YT[active-1].def/2;
         if(totaldmg>0){
           YT[active-1].hp-= totaldmg;
-          yourTurn = true;
+
         }
       }
+      Eactions -=1;
+    }
+    else if(!yourTurn){
+      yourTurn = true;
+      actions = 3;
     }
   }
 }
