@@ -18,6 +18,55 @@ let switchmenu=true;
 let ET = ["1","2","3"];
 let swap=false;
 
+let strike = { // all possible attacks
+  dmg: 60,
+  cost: 2,
+  you: [],
+  them: [],
+};
+let crack = {
+  dmg: 0,
+  cost: 1,
+  you: [],
+  them: ["weakness"],
+};
+let smash = {
+  dmg: 98,
+  cost: 3,
+  you: [],
+  them: [],
+};
+let pine_spike ={
+  dmg: 40,
+  cost: 3,
+  you: [],
+  them: ["poison"],
+};
+let shatter ={
+  dmg: 0,
+  cost: 3,
+  you: [],
+  them: ["defenseless"],
+};
+let haste ={
+  dmg: 0,
+  cost: 1,
+  you: ["speedy"],
+  them: [],
+};
+let burn ={
+  dmg: 0,
+  cost: 2,
+  you: [],
+  them: ["burning"],
+};
+let block ={
+  dmg: 0,
+  cost: 2,
+  you: ["toughness"],
+  them: [],
+};
+
 let space = { // all beast choices
   name: "non1",
   spd: "non2",
@@ -26,7 +75,7 @@ let space = { // all beast choices
   hp: "non5",
   Mhp: "non6",
   col: "white",
-  stat: [],
+  types: ["non7"],
   moves: ["g","b","f"],
 };
 let Q = {
@@ -37,7 +86,7 @@ let Q = {
   hp: 245,
   Mhp: 245,
   col: "purple",
-  stat: ["normal"],
+  types: ["normal"],
   moves: [strike,crack,haste],
 };
 let nice = {
@@ -48,18 +97,18 @@ let nice = {
   hp: 10,
   Mhp: 10,
   col: "red",
-  stat: ["not like other guys"],
+  types: ["not like other guys"],
   moves: [strike,crack,smash],
 };
 let StaR = {
   name: "StaR",
   spd: 83,
   str: 0.90,
-  def: 160,
-  hp: 200,
-  Mhp: 200,
+  def: 120,
+  hp: 260,
+  Mhp: 260,
   col: "pink",
-  stat: ["normal"],
+  types: ["normal"],
   moves: [haste,shatter,strike],
 };
 let DizZy = {
@@ -70,7 +119,7 @@ let DizZy = {
   hp: 230,
   Mhp: 230,
   col: "yellow",
-  stat: ["normal"],
+  types: ["normal"],
   moves: [block,smash,strike],
 };
 let pHoenix = {
@@ -81,7 +130,7 @@ let pHoenix = {
   hp: 270,
   Mhp: 270,
   col: "orange",
-  stat: ["fire"],
+  types: ["fire"],
   moves: [burn,strike,block],
 };
 let sapPoison = {
@@ -92,7 +141,7 @@ let sapPoison = {
   hp: 310,
   Mhp: 310,
   col: "green",
-  stat: ["poison"],
+  types: ["poison"],
   moves: [pine_spike,crack,haste],
 };
 let Mt_elephant = {
@@ -103,58 +152,9 @@ let Mt_elephant = {
   hp: 460,
   Mhp: 460,
   col: 87,
-  stat: ["normal"],
+  types: ["normal"],
   moves: [smash,strike,haste],
 };
-
-let strike = {
-  dmg: 60,
-  cost: 2,
-  you: [],
-  them: [],
-}
-let crack = {
-  dmg: 0,
-  cost: 1,
-  you: [],
-  them: ["weakness"],
-}
-let smash = {
-  dmg: 98,
-  cost: 3,
-  you: [],
-  them: [],
-}
-let pine_spike ={
-  dmg: 40,
-  cost: 3,
-  you: [],
-  them: ["poison"],
-}
-let shatter ={
-  dmg: 0,
-  cost: 3,
-  you: [],
-  them: ["defenseless"],
-}
-let haste ={
-  dmg: 0,
-  cost: 1,
-  you: ["speedy"],
-  them: [],
-}
-let burn ={
-  dmg: 0,
-  cost: 2,
-  you: [],
-  them: ["burning"],
-}
-let block ={
-  dmg: 0,
-  cost: 2,
-  you: ["toughness"],
-  them: [],
-}
 
 let catalog = [Q,nice,StaR,DizZy,pHoenix,sapPoison];
 let active = YT[0];
@@ -199,13 +199,13 @@ function draw() {
       textSize(30);
       text(actions,50,50);
       battle();
-  }
-  else if(swap){
-    background("purple");
-    if(keyIsDown){
-      release(key-1,1);
     }
-  }
+    else if(swap){
+      background("purple");
+      if(keyIsDown){
+        release(key-1,1);
+      }
+    }
     offSprites();
     // console.log(yourTurn);
   }
@@ -231,9 +231,9 @@ function assignTeam(n){
     else if(keyIsDown(90)){ // d
       YT[x-1] = structuredClone(sapPoison);
     }
-    else if(keyIsDown(88)){ // d
-      YT[x-1] = structuredClone(Mt_elephant);
-    }
+    // else if(keyIsDown(88)){ // d
+    //   YT[x-1] = structuredClone(Mt_elephant);
+    // }
   }
 }
 function offSprites () {
@@ -268,15 +268,20 @@ function mouseClicked(){
     let dmg = 25;
     if(actions>0){
       if(random(YT[active-1].spd/2,YT[active-1].spd)>random(ET[Eactive-1].spd/2,ET[Eactive-1].spd)){
-        let totaldmg = YT[active-1].str * dmg - ET[Eactive-1].def/2;
+        let totaldmg = YT[active-1].str * dmg - ET[Eactive-1].def/4;
         if(totaldmg>0){
           ET[Eactive-1].hp-= totaldmg;
         }
+        else{
+          console.log("hah weakling!");
+        }
+        actions -=1;
       }
-      actions -=1;
+      else{
+        console.log("youre too slow");
+      }
     }
     else{
-      console.log("youre too slow");
       yourTurn = false;
       Eactions = 3;
     }
@@ -292,9 +297,9 @@ function mouseClicked(){
 
 function release(slot,cost){
   if(actions-cost>=0&&!switchmenu){
-      active = slot +1;
-      swap = false;
-      actions -=cost;
+    active = slot +1;
+    swap = false;
+    actions -=cost;
   }
 }
 
