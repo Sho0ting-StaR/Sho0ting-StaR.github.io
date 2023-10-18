@@ -27,6 +27,7 @@ let space = { // all beast choices
   Mhp: "non6",
   col: "white",
   stat: [],
+  moves: ["g","b","f"],
 };
 let Q = {
   name: "Q",
@@ -37,6 +38,7 @@ let Q = {
   Mhp: 245,
   col: "purple",
   stat: ["normal"],
+  moves: [strike,crack,haste],
 };
 let nice = {
   name: "Q",
@@ -47,6 +49,7 @@ let nice = {
   Mhp: 10,
   col: "red",
   stat: ["not like other guys"],
+  moves: [strike,crack,smash],
 };
 let StaR = {
   name: "StaR",
@@ -57,6 +60,7 @@ let StaR = {
   Mhp: 200,
   col: "pink",
   stat: ["normal"],
+  moves: [haste,shatter,strike],
 };
 let DizZy = {
   name: "DizZy",
@@ -67,6 +71,7 @@ let DizZy = {
   Mhp: 230,
   col: "yellow",
   stat: ["normal"],
+  moves: [block,smash,strike],
 };
 let pHoenix = {
   name: "pHoenix",
@@ -77,6 +82,7 @@ let pHoenix = {
   Mhp: 270,
   col: "orange",
   stat: ["fire"],
+  moves: [burn,strike,block],
 };
 let sapPoison = {
   name: "sapPoison",
@@ -87,6 +93,7 @@ let sapPoison = {
   Mhp: 310,
   col: "green",
   stat: ["poison"],
+  moves: [pine_spike,crack,haste],
 };
 let Mt_elephant = {
   name: "Mt. elephant",
@@ -97,7 +104,57 @@ let Mt_elephant = {
   Mhp: 460,
   col: 87,
   stat: ["normal"],
+  moves: [smash,strike,haste],
 };
+
+let strike = {
+  dmg: 60,
+  cost: 2,
+  you: [],
+  them: [],
+}
+let crack = {
+  dmg: 0,
+  cost: 1,
+  you: [],
+  them: ["weakness"],
+}
+let smash = {
+  dmg: 98,
+  cost: 3,
+  you: [],
+  them: [],
+}
+let pine_spike ={
+  dmg: 40,
+  cost: 3,
+  you: [],
+  them: ["poison"],
+}
+let shatter ={
+  dmg: 0,
+  cost: 3,
+  you: [],
+  them: ["defenseless"],
+}
+let haste ={
+  dmg: 0,
+  cost: 1,
+  you: ["speedy"],
+  them: [],
+}
+let burn ={
+  dmg: 0,
+  cost: 2,
+  you: [],
+  them: ["burning"],
+}
+let block ={
+  dmg: 0,
+  cost: 2,
+  you: ["toughness"],
+  them: [],
+}
 
 let catalog = [Q,nice,StaR,DizZy,pHoenix,sapPoison];
 let active = YT[0];
@@ -224,9 +281,13 @@ function mouseClicked(){
       Eactions = 3;
     }
   }
-  if(!switchmenu&&yourTurn&&mouseY>height-200&&mouseX>width/5&&mouseX<2*width/5){
+  if(!switchmenu&&yourTurn&&mouseY>height-100&&mouseX>width/5&&mouseX<2*width/5){
     swap = true;
   }
+
+  // if(!switchmenu&&yourTurn&&mouseY>height-200&&mouseY<height-100&&mouseX>width/5&&mouseX<2*width/5){
+  //   attack(YT[active-1].A3);
+  // }
 }
 
 function release(slot,cost){
