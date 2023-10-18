@@ -76,6 +76,7 @@ let space = { // all beast choices
   Mhp: "non6",
   col: "white",
   types: ["non7"],
+  updwn: [],
   moves: ["g","b","f"],
 };
 let Q = {
@@ -87,6 +88,7 @@ let Q = {
   Mhp: 245,
   col: "purple",
   types: ["normal"],
+  updwn: [],
   moves: [strike,crack,haste],
 };
 let nice = {
@@ -98,6 +100,7 @@ let nice = {
   Mhp: 10,
   col: "red",
   types: ["not like other guys"],
+  updwn: [],
   moves: [strike,crack,smash],
 };
 let StaR = {
@@ -109,6 +112,7 @@ let StaR = {
   Mhp: 260,
   col: "pink",
   types: ["normal"],
+  updwn: [],
   moves: [haste,shatter,strike],
 };
 let DizZy = {
@@ -120,6 +124,7 @@ let DizZy = {
   Mhp: 230,
   col: "yellow",
   types: ["normal"],
+  updwn: [],
   moves: [block,smash,strike],
 };
 let pHoenix = {
@@ -131,6 +136,7 @@ let pHoenix = {
   Mhp: 270,
   col: "orange",
   types: ["fire"],
+  updwn: [],
   moves: [burn,strike,block],
 };
 let sapPoison = {
@@ -142,6 +148,7 @@ let sapPoison = {
   Mhp: 310,
   col: "green",
   types: ["poison"],
+  updwn: [],
   moves: [pine_spike,crack,haste],
 };
 let Mt_elephant = {
@@ -153,6 +160,7 @@ let Mt_elephant = {
   Mhp: 460,
   col: 87,
   types: ["normal"],
+  updwn: [],
   moves: [smash,strike,haste],
 };
 
@@ -207,7 +215,7 @@ function draw() {
       }
     }
     offSprites();
-    // console.log(yourTurn);
+
   }
 }
 
@@ -289,10 +297,53 @@ function mouseClicked(){
   if(!switchmenu&&yourTurn&&mouseY>height-100&&mouseX>width/5&&mouseX<2*width/5){
     swap = true;
   }
+  if(!switchmenu&&yourTurn&&mouseY>height-100&&mouseX>width/5&&mouseX<width/5){
+    if(actions >= YT[active-1].moves[1].cost){
+      fight(YT[active-1].moves[1],YT[active-1].moves[1].dmg,YT[active-1],ET[Eactive-1]);
+    }
+  }
+  if(!switchmenu&&yourTurn&&mouseY>height-200&&mouseY<height-100&&mouseX>width/5&&mouseX<2*width/5){
+    if(actions >= YT[active-1].moves[2].cost){
+      fight(YT[active-1].moves[2],YT[active-1].moves[2].dmg,YT[active-1],ET[Eactive-1]);
+    }
+  }
+}
 
-  // if(!switchmenu&&yourTurn&&mouseY>height-200&&mouseY<height-100&&mouseX>width/5&&mouseX<2*width/5){
-  //   attack(YT[active-1].A3);
-  // }
+function fight(move,damage,atkr,dfdr){
+  let resistance=dfdr.def;
+  let atkrswift=0;
+  let dfdrswift=0;
+  if(dfdr.updwn.includes("weakness")){
+    resistance -=50;
+  }
+  else if(dfdr.updwn.includes("defenseless")){
+    resistance = 0;
+  }
+  if(atkr.updwn.includes("speedy")){
+    atkrswift = 30;
+  }
+  if(dfdr.updwn.includes("speedy")){
+    dfdrswift = 30;
+  }
+  if(random(atkr.spd/2,atkr.spd)+atkrswift>random(dfdr.spd/2,dfdr.spd)+dfdrswift){
+    let totaldmg = atkr.str * damage - resistance/4;
+    if(dfdr.updwn.includes("burning")&&!dfdr.types.includes("fire")){
+      totaldmg+=10;
+    }
+    // if(dfdr.updwn.includes("poison")&&!dfdr.types.includes("poison")){
+    //   totaldmg+=30;
+    // }
+    if(totaldmg>0){
+      dfdr.hp-= totaldmg;
+    }
+    else{
+      console.log("hah weakling!");
+    }
+    actions -=move.cost;
+  }
+  else{
+    console.log("youre too slow");
+  }
 }
 
 function release(slot,cost){
