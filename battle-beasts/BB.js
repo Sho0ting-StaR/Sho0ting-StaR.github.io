@@ -37,7 +37,7 @@ let swipe = {
   cost: 1,
   you: [],
   them: [],
-}
+};
 let crack = {
   name: "crack",
   dmg: 0,
@@ -204,6 +204,7 @@ function setup() {
 function option(){
   x = int(key);
   if(arrayCheck(x,slots)){
+    console.log("option");
   }
 }
 
@@ -292,7 +293,7 @@ function mouseClicked(){
     }
   }
   if(!switchmenu&&yourTurn){
-  combatCheck();
+    combatCheck();
   }
 }
 
