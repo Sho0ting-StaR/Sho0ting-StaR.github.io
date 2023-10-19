@@ -17,7 +17,13 @@ let yourTurn = true;
 let switchmenu=true;
 let ET = ["1","2","3"];
 let swap=false;
-
+function preload(){
+  DizZy = loadImage("DizZy.png");
+  StaR = loadImage("StaR.png");
+  Nice = loadImage("Nice.png");
+  pHoenix = loadImage("pHoenix.png");
+  sapPoison = loadImage("sapPoison.png");
+}
 let strike = { // all possible attacks
   name: "strike",
   dmg: 60,
@@ -106,7 +112,7 @@ let Q = {
   updwn: [],
   moves: [strike,crack,haste],
 };
-let nice = {
+let Nice = {
   name: "Q",
   spd: 210,
   str: 0.6,
@@ -179,7 +185,7 @@ let Mt_elephant = {
   moves: [smash,strike,haste],
 };
 
-let catalog = [Q,nice,StaR,DizZy,pHoenix,sapPoison];
+let catalog = [Q,Nice,StaR,DizZy,pHoenix,sapPoison];
 let active = YT[0];
 let Eactive = ET[0];
 
@@ -239,7 +245,7 @@ function assignTeam(n){
       YT[x-1] = structuredClone(Q);
     }
     else if(keyIsDown(69)){ // e
-      YT[x-1] = structuredClone(nice);
+      YT[x-1] = structuredClone(Nice);
     }
     else if(keyIsDown(83)){ // s
       YT[x-1] = structuredClone(StaR);
@@ -355,7 +361,7 @@ function fight(move,damage,atkr,dfdr){
   else{
     console.log("youre too slow");
   }
-  
+
 }
 
 function release(slot,cost){
