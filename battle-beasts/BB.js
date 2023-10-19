@@ -19,48 +19,63 @@ let ET = ["1","2","3"];
 let swap=false;
 
 let strike = { // all possible attacks
+  name: "strike",
   dmg: 60,
   cost: 2,
   you: [],
   them: [],
 };
+let swipe = {
+  name: "swipe",
+  dmg: 25,
+  cost: 1,
+  you: [],
+  them: [],
+}
 let crack = {
+  name: "crack",
   dmg: 0,
   cost: 1,
   you: [],
   them: ["weakness"],
 };
 let smash = {
+  name: "smash",
   dmg: 98,
   cost: 3,
   you: [],
   them: [],
 };
 let pine_spike ={
+  name: "pine spike",
   dmg: 40,
   cost: 3,
   you: [],
   them: ["poison"],
 };
 let shatter ={
+  name: "shatter",
   dmg: 0,
   cost: 3,
   you: [],
   them: ["defenseless"],
 };
 let haste ={
+  name: "haste",
   dmg: 0,
   cost: 1,
   you: ["speedy"],
   them: [],
 };
 let burn ={
+  name: "burn",
   dmg: 0,
   cost: 2,
   you: [],
   them: ["burning"],
 };
 let block ={
+  name: "block",
   dmg: 0,
   cost: 2,
   you: ["toughness"],
@@ -101,7 +116,7 @@ let nice = {
   col: "red",
   types: ["not like other guys"],
   updwn: [],
-  moves: [strike,crack,smash],
+  moves: [swipe,strike,smash],
 };
 let StaR = {
   name: "StaR",
@@ -137,7 +152,7 @@ let pHoenix = {
   col: "orange",
   types: ["fire"],
   updwn: [],
-  moves: [burn,strike,block],
+  moves: [burn,swipe,block],
 };
 let sapPoison = {
   name: "sapPoison",
@@ -149,7 +164,7 @@ let sapPoison = {
   col: "green",
   types: ["poison"],
   updwn: [],
-  moves: [pine_spike,crack,haste],
+  moves: [pine_spike,crack,swipe],
 };
 let Mt_elephant = {
   name: "Mt. elephant",
@@ -183,7 +198,6 @@ function setup() {
 function option(){
   x = int(key);
   if(arrayCheck(x,slots)){
-    console.log(x);
   }
 }
 
@@ -271,45 +285,43 @@ function mouseClicked(){
       switchmenu=false;
     }
   }
+  if(!switchmenu&&yourTurn){
+  combatCheck();
+  }
+}
 
-  if(!switchmenu&&yourTurn&&mouseY>height-200&&mouseX<width/5){
-    let dmg = 25;
-    if(actions>0){
-      if(random(YT[active-1].spd/2,YT[active-1].spd)>random(ET[Eactive-1].spd/2,ET[Eactive-1].spd)){
-        let totaldmg = YT[active-1].str * dmg - ET[Eactive-1].def/4;
-        if(totaldmg>0){
-          ET[Eactive-1].hp-= totaldmg;
-        }
-        else{
-          console.log("hah weakling!");
-        }
-        actions -=1;
-      }
-      else{
-        console.log("youre too slow");
+function combatCheck(){
+  if(actions>0){
+    if(!switchmenu&&yourTurn&&mouseY>height-200&&mouseX<width/5){
+      if(actions >= YT[active-1].moves[0].cost){
+        fight(YT[active-1].moves[0],YT[active-1].moves[0].dmg,YT[active-1],ET[Eactive-1]);
+        actions -= YT[active-1].moves[0].cost;
       }
     }
-    else{
-      yourTurn = false;
-      Eactions = 3;
+    if(!switchmenu&&yourTurn&&mouseY>height-100&&mouseX>width/5&&mouseX<2*width/5){
+      swap = true;
+    }
+    if(!switchmenu&&yourTurn&&mouseY>height-100&&mouseX>width/5&&mouseX<width/5){
+      if(actions >= YT[active-1].moves[1].cost){
+        fight(YT[active-1].moves[1],YT[active-1].moves[1].dmg,YT[active-1],ET[Eactive-1]);
+        actions -= YT[active-1].moves[1].cost;
+      }
+    }
+    if(!switchmenu&&yourTurn&&mouseY>height-200&&mouseY<height-100&&mouseX>width/5&&mouseX<2*width/5){
+      if(actions >= YT[active-1].moves[2].cost){
+        fight(YT[active-1].moves[2],YT[active-1].moves[2].dmg,YT[active-1],ET[Eactive-1]);
+        actions -= YT[active-1].moves[2].cost;
+      }
     }
   }
-  if(!switchmenu&&yourTurn&&mouseY>height-100&&mouseX>width/5&&mouseX<2*width/5){
-    swap = true;
-  }
-  if(!switchmenu&&yourTurn&&mouseY>height-100&&mouseX>width/5&&mouseX<width/5){
-    if(actions >= YT[active-1].moves[1].cost){
-      fight(YT[active-1].moves[1],YT[active-1].moves[1].dmg,YT[active-1],ET[Eactive-1]);
-    }
-  }
-  if(!switchmenu&&yourTurn&&mouseY>height-200&&mouseY<height-100&&mouseX>width/5&&mouseX<2*width/5){
-    if(actions >= YT[active-1].moves[2].cost){
-      fight(YT[active-1].moves[2],YT[active-1].moves[2].dmg,YT[active-1],ET[Eactive-1]);
-    }
+  else {
+    yourTurn = false;
+    Eactions = 3;
   }
 }
 
 function fight(move,damage,atkr,dfdr){
+  text(move,width/2,height/2);
   let resistance=dfdr.def;
   let atkrswift=0;
   let dfdrswift=0;
@@ -339,11 +351,11 @@ function fight(move,damage,atkr,dfdr){
     else{
       console.log("hah weakling!");
     }
-    actions -=move.cost;
   }
   else{
     console.log("youre too slow");
   }
+  
 }
 
 function release(slot,cost){
@@ -377,6 +389,11 @@ function arena(){
       rect(width/5,height-100,width/5,100);
       rect(0,height-200,width/5,100);
       rect(width/5,height-200,width/5,100);
+      fill(0);
+      text(YT[active-1].moves[0].name,0,height-150);
+      text(YT[active-1].moves[1].name,0,height-50);
+      text(YT[active-1].moves[2].name,width/5,height-150);
+      text("switch beasts",width/5,height-50);
     }
     noStroke();
   }
