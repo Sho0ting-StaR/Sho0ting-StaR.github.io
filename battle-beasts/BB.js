@@ -1,9 +1,11 @@
 // Battle beasts/arrays and object notation assignment
 // Nic/Star
-// october 5th, 2023
+// october 5th-20th, 2023
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// - made complex characters with multiple instances of object notation and arrays each, so if a single one
+//  of my beasts includes the requirements everything else is technically bonus. im probably most proud of 
+// my battle stuff aka combatCheck and fight functions as well as my system for characters as a whole.
 
 let YT = ["1","2","3"];
 let slots = [1,2,3];
@@ -17,13 +19,13 @@ let yourTurn = true;
 let switchmenu=true;
 let ET = ["1","2","3"];
 let swap=false;
-function preload(){
-  DizZy = loadImage("DizZy.png");
-  StaR = loadImage("StaR.png");
-  Nice = loadImage("Nice.png");
-  pHoenix = loadImage("pHoenix.png");
-  sapPoison = loadImage("sapPoison.png");
-}
+// function preload(){
+//   DizZy = loadImage("DizZy.png");
+//   StaR = loadImage("StaR.png");
+//   Nice = loadImage("Nice.png");
+//   pHoenix = loadImage("pHoenix.png");
+//   sapPoison = loadImage("sapPoison.png");
+// }
 let strike = { // all possible attacks
   name: "strike",
   dmg: 60,
@@ -228,6 +230,8 @@ function draw() {
       textSize(30);
       text(actions,50,50);
       battle();
+      console.log("you",YT[active-1].updwn);
+      console.log("them",ET[Eactive-1].updwn);
     }
     else if(swap){
       background("purple");
@@ -299,29 +303,29 @@ function mouseClicked(){
 
 function combatCheck(){
   if(actions>0){
-    if(!switchmenu&&yourTurn&&mouseY>height-200&&mouseX<width/5){
+    if(!switchmenu&&yourTurn&&mouseY>height-200&&mouseY<height-100&&mouseX<width/5){
       if(actions >= YT[active-1].moves[0].cost){
-        fight(YT[active-1].moves[0],YT[active-1].moves[0].dmg,YT[active-1],ET[Eactive-1]);
+        fight(YT[active-1].moves[0],YT[active-1].moves[0].dmg,YT[active-1],ET[Eactive-1]); //top left battle option
         actions -= YT[active-1].moves[0].cost;
       }
     }
-    if(!switchmenu&&yourTurn&&mouseY>height-100&&mouseX>width/5&&mouseX<2*width/5){
+    if(!switchmenu&&yourTurn&&mouseY>height-100&&mouseX>width/5&&mouseX<2*width/5){ // bottom right battle option
       swap = true;
     }
-    if(!switchmenu&&yourTurn&&mouseY>height-100&&mouseX>width/5&&mouseX<width/5){
+    if(!switchmenu&&yourTurn&&mouseY>height-100&&mouseX<width/5){ // bottom left battle option
       if(actions >= YT[active-1].moves[1].cost){
         fight(YT[active-1].moves[1],YT[active-1].moves[1].dmg,YT[active-1],ET[Eactive-1]);
         actions -= YT[active-1].moves[1].cost;
       }
     }
-    if(!switchmenu&&yourTurn&&mouseY>height-200&&mouseY<height-100&&mouseX>width/5&&mouseX<2*width/5){
+    if(!switchmenu&&yourTurn&&mouseY>height-200&&mouseY<height-100&&mouseX>width/5&&mouseX<2*width/5){ // top right battle option
       if(actions >= YT[active-1].moves[2].cost){
         fight(YT[active-1].moves[2],YT[active-1].moves[2].dmg,YT[active-1],ET[Eactive-1]);
         actions -= YT[active-1].moves[2].cost;
       }
     }
   }
-  else {
+  if(actions===0){
     yourTurn = false;
     Eactions = 3;
   }
@@ -329,6 +333,9 @@ function combatCheck(){
 
 function fight(move,damage,atkr,dfdr){
   text(move,width/2,height/2);
+  for(let l of move.them.length){ // EXPERIMENTAL BUFFDEBUFF
+    dfdr.updwn.push(l);
+  }
   let resistance=dfdr.def;
   let atkrswift=0;
   let dfdrswift=0;
@@ -349,9 +356,6 @@ function fight(move,damage,atkr,dfdr){
     if(dfdr.updwn.includes("burning")&&!dfdr.types.includes("fire")){
       totaldmg+=10;
     }
-    // if(dfdr.updwn.includes("poison")&&!dfdr.types.includes("poison")){
-    //   totaldmg+=30;
-    // }
     if(totaldmg>0){
       dfdr.hp-= totaldmg;
     }
@@ -448,6 +452,9 @@ function battle(){ // enemy turn
     }
     else if(!yourTurn){
       yourTurn = true;
+      if(ET[Eactive-1].updwn.includes("poison")&&!ET[Eactive-1].types.includes("poison")){
+        ET[Eactive-1].hp-=30;
+      }
       actions = 3;
     }
   }
