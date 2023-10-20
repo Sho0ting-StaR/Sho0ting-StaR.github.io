@@ -7,7 +7,7 @@
 //  of my beasts includes the requirements everything else is technically bonus. im probably most proud of 
 // my battle stuff aka combatCheck and fight functions as well as my system for characters as a whole.
 
-let YT = ["1","2","3"];
+let YT = ["1","2","3"]; //YT = your team, starts empty 
 let slots = [1,2,3];
 let start = true;
 let activSlot = [YT[0],YT[1],YT[2]];
@@ -17,14 +17,18 @@ let actions=3;
 let Eactions=3;
 let yourTurn = true;
 let switchmenu=true;
-let ET = ["1","2","3"];
+let ET = ["1","2","3"]; //ET = enemy team, starts empty 
 let swap=false;
+let youscale = 0.6;
+let themscale = 0.4;
+let DizZyI;let StaRI;let NiceI;let pHoenixI;let sapPoisonI;let Mt_elephantI
 // function preload(){
-//   DizZy = loadImage("DizZy.png");
-//   StaR = loadImage("StaR.png");
-//   Nice = loadImage("Nice.png");
-//   pHoenix = loadImage("pHoenix.png");
-//   sapPoison = loadImage("sapPoison.png");
+//   DizZyI = loadImage("DizZy.png");
+//   StaRI = loadImage("StaR.png");
+//   NiceI = loadImage("Nice.png");
+//   pHoenixI = loadImage("pHoenix.png");
+//   sapPoisonI = loadImage("sapPoison.png");
+//   Mt_elephantI = loadImage("Mt_elephant.png")
 // }
 let strike = { // all possible attacks
   name: "strike",
@@ -113,6 +117,7 @@ let Q = {
   types: ["normal"],
   updwn: [],
   moves: [strike,crack,haste],
+  png:0,
 };
 let Nice = {
   name: "Q",
@@ -125,6 +130,7 @@ let Nice = {
   types: ["not like other guys"],
   updwn: [],
   moves: [swipe,strike,smash],
+  png:NiceI,
 };
 let StaR = {
   name: "StaR",
@@ -137,6 +143,7 @@ let StaR = {
   types: ["normal"],
   updwn: [],
   moves: [haste,shatter,strike],
+  png:StaRI,
 };
 let DizZy = {
   name: "DizZy",
@@ -149,6 +156,7 @@ let DizZy = {
   types: ["normal"],
   updwn: [],
   moves: [block,smash,strike],
+  png:DizZyI,
 };
 let pHoenix = {
   name: "pHoenix",
@@ -161,6 +169,7 @@ let pHoenix = {
   types: ["fire"],
   updwn: [],
   moves: [burn,swipe,block],
+  png:pHoenixI,
 };
 let sapPoison = {
   name: "sapPoison",
@@ -173,6 +182,7 @@ let sapPoison = {
   types: ["poison"],
   updwn: [],
   moves: [pine_spike,crack,swipe],
+  png:sapPoisonI,
 };
 let Mt_elephant = {
   name: "Mt. elephant",
@@ -185,9 +195,10 @@ let Mt_elephant = {
   types: ["normal"],
   updwn: [],
   moves: [smash,strike,haste],
+  png:Mt_elephantI,
 };
 
-let catalog = [Q,Nice,StaR,DizZy,pHoenix,sapPoison];
+let catalog = [Q,StaR,DizZy,pHoenix,sapPoison]; // readd Nice later and Mt elephant
 let active = YT[0];
 let Eactive = ET[0];
 
@@ -333,9 +344,9 @@ function combatCheck(){
 
 function fight(move,damage,atkr,dfdr){
   text(move,width/2,height/2);
-  for(let l of move.them.length){ // EXPERIMENTAL BUFFDEBUFF
-    dfdr.updwn.push(l);
-  }
+  // for(let l of move.them.length){ // EXPERIMENTAL BUFFDEBUFF
+  //   dfdr.updwn.push(l);
+  // }
   let resistance=dfdr.def;
   let atkrswift=0;
   let dfdrswift=0;
@@ -396,25 +407,30 @@ function arena(){
     if(yourTurn){
       stroke(30);
       fill(130);
-      rect(0,height-100,width/5,100);
+      rect(0,height-100,width/5,100); //display squares for combat moves and their names
       rect(width/5,height-100,width/5,100);
       rect(0,height-200,width/5,100);
       rect(width/5,height-200,width/5,100);
       fill(0);
-      text(YT[active-1].moves[0].name,0,height-150);
+      text(YT[active-1].moves[0].name,0,height-150); 
       text(YT[active-1].moves[1].name,0,height-50);
       text(YT[active-1].moves[2].name,width/5,height-150);
       text("switch beasts",width/5,height-50);
+      text(YT[active-1].moves[0].cost,0,height-120); 
+      text(YT[active-1].moves[1].cost,0,height-20);
+      text(YT[active-1].moves[2].cost,width/5,height-120);
+      text("1",width/5,height-20);
     }
     noStroke();
   }
 }
-function drawBeasts(){
+function drawBeasts(){ // drawing the beasts in battle
   if(!start&&!switchmenu){
     if(ET[Eactive-1].hp<=0){ // switch enemy
       Eactive +=1;
     }
     fill(YT[active-1].col); // sprite
+    // Image(YT[active-1].png,width/3-50,height/1.5-80,YT[active-1].png*youscale,YT[active-1].png*youscale)
     rect(width/3-50,height/1.5-80,120,120);
 
     fill(60); // healthbar
@@ -439,7 +455,7 @@ function battle(){ // enemy turn
     if(ET[Eactive-1].hp<=0){
       Eactive = ET[0];
     }
-    if(!yourTurn&&Eactions>0){
+    if(!yourTurn&&Eactions>0){ // enemy battling turn
       if (random(ET[Eactive-1].spd/2,ET[Eactive-1].spd)>random(YT[active-1].spd/2,YT[active-1].spd)){
         let dmg = 25;
         let totaldmg = ET[Eactive-1].str * dmg - YT[active-1].def/2;
