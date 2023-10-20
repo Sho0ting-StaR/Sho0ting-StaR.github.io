@@ -22,6 +22,7 @@ let swap=false;
 let youscale = 0.6;
 let themscale = 0.4;
 let DizZyI;let StaRI;let NiceI;let pHoenixI;let sapPoisonI;let Mt_elephantI;
+let apply;
 // function preload(){
 //   DizZyI = loadImage("DizZy.png");
 //   StaRI = loadImage("StaR.png");
@@ -83,8 +84,8 @@ let burn ={
   name: "burn",
   dmg: 5,
   cost: 2,
-  you: [],
-  them: ["burning"],
+  you: apply=[],
+  them: apply=["burning"],
 };
 let block ={
   name: "block",
@@ -344,9 +345,14 @@ function combatCheck(){
 
 function fight(move,damage,atkr,dfdr){
   text(move,width/2,height/2);
-  // for(let l of move.them.length){ // EXPERIMENTAL BUFFDEBUFF
-  //   dfdr.updwn.push(l);
-  // }
+  for(let l=0;l< move.them.length;l++){ // EXPERIMENTAL DEBUFF
+    dfdr.updwn.push(l);
+  }
+  console.log(move,move.them);
+  for(let l=0;l< move.you.length;l++){ // EXPERIMENTAL BUFF
+    atkr.updwn.push(l);
+  }
+  console.log(move,move.you);
   let resistance=dfdr.def;
   let atkrswift=0;
   let dfdrswift=0;
@@ -385,6 +391,10 @@ function release(slot,cost){
     active = slot +1;
     swap = false;
     actions -=cost;
+    if(actions===0){
+      yourTurn = false; // only works for your team, maybe add a 3rd argument for team?
+      Eactions = 3;
+    }
   }
 }
 
