@@ -23,14 +23,14 @@ let youscale = 0.6;
 let themscale = 0.4;
 let DizZyI;let StaRI;let NiceI;let pHoenixI;let sapPoisonI;let Mt_elephantI;
 let apply;
-// function preload(){
-//   DizZyI = loadImage("DizZy.png");
-//   StaRI = loadImage("StaR.png");
-//   NiceI = loadImage("Nice.png");
-//   pHoenixI = loadImage("pHoenix.png");
-//   sapPoisonI = loadImage("sapPoison.png");
-//   Mt_elephantI = loadImage("Mt_elephant.png")
-// }
+function preload(){
+  DizZyI = loadImage("png-sprites/DizZy.png");
+  StaRI = loadImage("png-sprites/StaR.png");
+  NiceI = loadImage("png-sprites/Nice.png");
+  pHoenixI = loadImage("png-sprites/pHoenix.png");
+  sapPoisonI = loadImage("png-sprites/sapPoison.png");
+  Mt_elephantI = loadImage("png-sprites/Mt_elephant.png");
+}
 let strike = { // all possible attacks
   name: "strike",
   dmg: 60,
@@ -218,7 +218,7 @@ function setup() {
 function option(){
   x = int(key);
   if(arrayCheck(x,slots)){
-    console.log("option");
+    // console.log("option");
   }
 }
 
@@ -242,8 +242,8 @@ function draw() {
       textSize(30);
       text(actions,50,50);
       battle();
-      console.log("you",YT[active-1].updwn);
-      console.log("them",ET[Eactive-1].updwn);
+      // console.log("you",YT[active-1].updwn);
+      // console.log("them",ET[Eactive-1].updwn);
     }
     else if(swap){
       background("purple");
@@ -254,6 +254,8 @@ function draw() {
     offSprites();
 
   }
+
+  image(NiceI, 0, 0);
 }
 
 function assignTeam(n){
@@ -348,11 +350,11 @@ function fight(move,damage,atkr,dfdr){
   for(let l=0;l< move.them.length;l++){ // EXPERIMENTAL DEBUFF
     dfdr.updwn.push(l);
   }
-  console.log(move,move.them);
+  // console.log(move,move.them);
   for(let l=0;l< move.you.length;l++){ // EXPERIMENTAL BUFF
     atkr.updwn.push(l);
   }
-  console.log(move,move.you);
+  // console.log(move,move.you);
   let resistance=dfdr.def;
   let atkrswift=0;
   let dfdrswift=0;
@@ -377,11 +379,11 @@ function fight(move,damage,atkr,dfdr){
       dfdr.hp-= totaldmg;
     }
     else{
-      console.log("hah weakling!");
+      // console.log("hah weakling!");
     }
   }
   else{
-    console.log("youre too slow");
+    // console.log("youre too slow");
   }
 
 }
@@ -440,8 +442,8 @@ function drawBeasts(){ // drawing the beasts in battle
       Eactive +=1;
     }
     fill(YT[active-1].col); // sprite
-    // Image(YT[active-1].png,width/3-50,height/1.5-80,YT[active-1].png*youscale,YT[active-1].png*youscale)
-    rect(width/3-50,height/1.5-80,120,120);
+    Image(YT[active-1].png,width/3-50,height/1.5-80,YT[active-1].png*youscale,YT[active-1].png*youscale);
+    // rect(width/3-50,height/1.5-80,120,120);
 
     fill(60); // healthbar
     rect(width-100,height-100,100,30);
