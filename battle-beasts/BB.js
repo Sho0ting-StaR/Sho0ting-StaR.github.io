@@ -21,7 +21,7 @@ let ET = ["1","2","3"]; //ET = enemy team, starts empty
 let swap=false;
 let youscale = 0.6;
 let themscale = 0.4;
-let DizZyI;let StaRI;let NiceI;let pHoenixI;let sapPoisonI;let Mt_elephantI
+let DizZyI;let StaRI;let NiceI;let pHoenixI;let sapPoisonI;let Mt_elephantI;
 // function preload(){
 //   DizZyI = loadImage("DizZy.png");
 //   StaRI = loadImage("StaR.png");
@@ -39,7 +39,7 @@ let strike = { // all possible attacks
 };
 let swipe = {
   name: "swipe",
-  dmg: 25,
+  dmg: 20,
   cost: 1,
   you: [],
   them: [],
@@ -53,14 +53,14 @@ let crack = {
 };
 let smash = {
   name: "smash",
-  dmg: 98,
+  dmg: 70,
   cost: 3,
   you: [],
   them: [],
 };
 let pine_spike ={
   name: "pine spike",
-  dmg: 40,
+  dmg: 45,
   cost: 3,
   you: [],
   them: ["poison"],
@@ -81,7 +81,7 @@ let haste ={
 };
 let burn ={
   name: "burn",
-  dmg: 0,
+  dmg: 5,
   cost: 2,
   you: [],
   them: ["burning"],
