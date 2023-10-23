@@ -118,7 +118,7 @@ let Q = {
   types: ["normal"],
   updwn: [],
   moves: [strike,crack,haste],
-  png:0,
+  img:0,
 };
 let Nice = {
   name: "Q",
@@ -131,7 +131,7 @@ let Nice = {
   types: ["not like other guys"],
   updwn: [],
   moves: [swipe,strike,smash],
-  png:NiceI,
+  img:NiceI,
 };
 let StaR = {
   name: "StaR",
@@ -144,7 +144,7 @@ let StaR = {
   types: ["normal"],
   updwn: [],
   moves: [haste,shatter,strike],
-  png:StaRI,
+  img:StaRI,
 };
 let DizZy = {
   name: "DizZy",
@@ -157,7 +157,7 @@ let DizZy = {
   types: ["normal"],
   updwn: [],
   moves: [block,smash,strike],
-  png:DizZyI,
+  img:DizZyI,
 };
 let pHoenix = {
   name: "pHoenix",
@@ -170,7 +170,7 @@ let pHoenix = {
   types: ["fire"],
   updwn: [],
   moves: [burn,swipe,block],
-  png:pHoenixI,
+  img:pHoenixI,
 };
 let sapPoison = {
   name: "sapPoison",
@@ -183,7 +183,7 @@ let sapPoison = {
   types: ["poison"],
   updwn: [],
   moves: [pine_spike,crack,swipe],
-  png:sapPoisonI,
+  img:sapPoisonI,
 };
 let Mt_elephant = {
   name: "Mt. elephant",
@@ -196,7 +196,7 @@ let Mt_elephant = {
   types: ["normal"],
   updwn: [],
   moves: [smash,strike,haste],
-  png:Mt_elephantI,
+  img:Mt_elephantI,
 };
 
 let catalog = [Q,StaR,DizZy,pHoenix,sapPoison]; // readd Nice later and Mt elephant
@@ -255,7 +255,7 @@ function draw() {
 
   }
 
-  image(NiceI, 0, 0);
+  image(NiceI, 0, 10,youscale*200,youscale*200);
 }
 
 function assignTeam(n){
@@ -441,8 +441,8 @@ function drawBeasts(){ // drawing the beasts in battle
     if(ET[Eactive-1].hp<=0){ // switch enemy
       Eactive +=1;
     }
-    fill(YT[active-1].col); // sprite
-    Image(YT[active-1].png,width/3-50,height/1.5-80,YT[active-1].png*youscale,YT[active-1].png*youscale);
+    // fill(YT[active-1].col); // sprite
+    Image (YT[active-1].img,width/3-50,height/1.5-80,youscale*200,200*youscale);
     // rect(width/3-50,height/1.5-80,120,120);
 
     fill(60); // healthbar
