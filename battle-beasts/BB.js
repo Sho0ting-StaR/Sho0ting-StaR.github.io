@@ -442,7 +442,7 @@ function drawBeasts(){ // drawing the beasts in battle
       Eactive +=1;
     }
     // fill(YT[active-1].col); // sprite
-    Image (YT[active-1].img,width/3-50,height/1.5-80,youscale*200,200*youscale);
+    image (YT[active-1].img,width/3-50,height/1.5-80,youscale*200,200*youscale);
     // rect(width/3-50,height/1.5-80,120,120);
 
     fill(60); // healthbar
