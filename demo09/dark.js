@@ -16,9 +16,9 @@ function setup() {
 }
 
 function draw() {
-  background(160);
+  background(40);
   displayRects(bbackground,0,0.8);
-  displayRects(terrain,40,1);
+  displayRects(terrain,10,1);
 
 
   if (keyIsDown(RIGHT_ARROW)){
