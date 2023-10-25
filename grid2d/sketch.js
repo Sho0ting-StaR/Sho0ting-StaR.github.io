@@ -29,9 +29,9 @@ function draw() {
   }
 }
 
-function mouseClicked(){
-  let x=Math.floor(mouseX/GRIDSIZE);
-  let y=Math.floor(mouseY/GRIDSIZE);
+function mousePressed(){
+  let x=Math.floor(mouseX/tilesize);
+  let y=Math.floor(mouseY/tilesize);
   if(grid[y][x] === 0 ){
     grid[y][x] = 1;
   }
