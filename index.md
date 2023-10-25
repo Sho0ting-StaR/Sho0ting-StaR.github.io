@@ -10,3 +10,4 @@
 - [lightgame](light-game)
 - [assignment2](battle-beasts)
 - [assignment3](grid2d)
+- [gridneighbours](neigh)
