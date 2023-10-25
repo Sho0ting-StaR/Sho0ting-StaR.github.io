@@ -131,7 +131,7 @@ let Nice = {
   types: ["not like other guys"],
   updwn: [],
   moves: [swipe,strike,smash],
-  img:NiceI,
+  img: NiceI,
 };
 let StaR = {
   name: "StaR",
@@ -211,9 +211,8 @@ function setup() {
 
   for(let i=0;i < ET.length;i++){
     ET[i] = structuredClone(random(catalog));
-    // console.log(ET[i]);
   }
-
+  // Nice.img = NiceI;
 }
 function option(){
   x = int(key);
