@@ -1,66 +1,86 @@
-// texture loading
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
-let gridsize = 8;
-let grid = [];
-let tilesize;
-let rock =[30,50,20,10,30,0,30,40,60,20,30,10,0,30,50,30,];
-let pearl = [240,240,240,240,240,200,240,240,200,240,180,240,240,240,240,240];
+// 2D Grid Neighbours
+
+let grid;
+const GRID_SIZE = 10;
+let cellSize;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  tilesize = windowHeight/gridsize;
-  generateGrid(tilesize,tilesize,grid);
+  grid = generateEmptyGrid(GRID_SIZE, GRID_SIZE);
+
+  if (height > width) {
+    cellSize = width/GRID_SIZE;
+  }
+  else {
+    cellSize = height/GRID_SIZE;
+  }
 }
 
 function draw() {
   background(220);
-  visualizeGrid(gridsize,gridsize,grid);
+  displayGrid();
 }
 
-function mousePressed(){
-  let x = Math.floor(mouseX/tilesize);
-  let y = Math.floor(mouseY/tilesize);
-  if(grid[y][x] === 1){
-    for(let n of grid[y][x]){
-      grid[y][x][n] = 0;
+function mousePressed() {
+  let y = Math.floor(mouseY/cellSize);
+  let x = Math.floor(mouseX/cellSize);
+
+  toggleCell(x, y);   //current cell
+  toggleCell(x, y-1); //north neighbour
+  toggleCell(x, y+1); //south neighbour
+  toggleCell(x+1, y); //east neighbour
+  toggleCell(x-1, y); //west neighbour
+}
+
+function toggleCell(x, y) {
+  //check that we are within the grid, then toggle
+  if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE) {
+    if (grid[y][x] === 0) {
+      grid[y][x] = 1;
     }
-  }
-  else if(grid[y][x] === 0){
-    grid[y][x] = 1;
-  }
-}
-
-function generateGrid(LR,UD,array){
-  for(let y = 0; y < UD; y++){
-    array.push([]);
-    for(let x = 0; x < LR; x++){
-      if(random(100)>50){
-        array[y].push(1);
-        for(let l =0;l < 4;l++){ 
-          array[y][x].push;
-        }
-      }
-      else{
-        array[y].push(0);
-      }
+    else if (grid[y][x] === 1) {
+      grid[y][x] = 0;
     }
   }
 }
 
-function visualizeGrid(columns,rows,array){
-  for(let y = 0; y < rows; y++){
-    for(let x = 0;x < columns; x++){
-      if(array[y][x][z] !==0){
-        fill(random(256),random(256),random(256));
+function displayGrid() {
+  for (let y = 0; y < GRID_SIZE; y++) {
+    for (let x = 0; x < GRID_SIZE; x++) {
+      if (grid[y][x] === 0) {
+        fill("white");
       }
-      else{
-        fill(40);
+      else if (grid[y][x] === 1) {
+        fill("black");
       }
-      rect(x*tilesize,y*tilesize,tilesize,tilesize);
+      rect(x*cellSize, y*cellSize, cellSize, cellSize);
     }
   }
+}
+
+function generateRandomGrid(cols, rows) {
+  let newGrid = [];
+  for (let y = 0; y < rows; y++) {
+    newGrid.push([]);
+    for (let x = 0; x < cols; x++) {
+      if (random(100) < 50) {
+        newGrid[y].push(0);
+      }
+      else {
+        newGrid[y].push(1);
+      }
+    }
+  }
+  return newGrid;
+}
+
+function generateEmptyGrid(cols, rows) {
+  let newGrid = [];
+  for (let y = 0; y < rows; y++) {
+    newGrid.push([]);
+    for (let x = 0; x < cols; x++) {
+      newGrid[y].push(0);
+    }
+  }
+  return newGrid;
 }
