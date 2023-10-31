@@ -28,7 +28,7 @@ function draw() {
     showGrid(grid);
   }
   if(frameCount%8===0){
-    //moveFolk();
+    moveFolk(peeps);
   }
   displayFolk(peeps);
 }
@@ -59,15 +59,24 @@ function displayFolk(array){ // draw peeps
 }
 
 function moveFolk(array){
+  let nextFrame = [];
   for(let y= 0;y < array.length;y++){
-    let m = random(-1,2);
-    let x = random(0,2);
-    array[y][x] -= m*5;
-    if(Math.floor(array[y][x])!==0){
-      array[y][x] +=m*5;
+    nextFrame.push([]);
+    for(let z=0;z<array[y].length;z++){
+      let m = random(-1,2);
+      let x = random(100);
+      // nextFrame[y][x] -= m*5;
+      if(x > 50){
+        if(Math.floor(array[y][z]-m*5)!==0){
+          nextFrame[y].push(nextFrame[y][z] +=m*5);
+        }
+        else{
+          nextFrame[y].push(nextFrame[y][z] -=m*5);
+        }
+        array = nextFrame;
+      }
     }
   }
-  
 }
 
 function grassCheck(array,lr,ud){
