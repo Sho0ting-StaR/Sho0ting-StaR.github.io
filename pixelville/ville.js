@@ -57,7 +57,6 @@ function displayFolk(array){ // draw peeps
       fill(60,0,28);
       rect(array[y][0], array[y][1], array[y][2], array[y][2]);
     }
-    
   }
 }
 
@@ -67,9 +66,9 @@ function moveFolk(array){
     for(let z=0;z<array[y].length;z++){
       let m = Math.floor(random(-1,2));
       let x = random(100);
-      if(!array[y][3]===0){
+      // if(!array[y][3]===0){
         if(x > 50){
-          if(bactpos(y,)+m*1===0){  // give bactpos m
+          if(bactpos(y,m,x)===true){  // give bactpos m
             //grid[Math.floor(array[y][1]/tilesize)][Math.floor(array[y][0]/tilesize)] OR grid[y][0] old
             nextFrame[y][0] +=m*1;
           }
@@ -79,27 +78,31 @@ function moveFolk(array){
             nextFrame[y][1] +=m*1;
           }
         }
-      }
+      // }
     }
     array = nextFrame;
   }
 }
 
-function bactpos(bact){ // FINISH LATER
+function bactpos(bact,tog,flip){ // FINISH LATER
   let x = peeps[bact][0];
   let y = peeps[bact][1];
-  for(let i = -1;i<2;i++){
-    for(let j = -1;j<2;j++){ // check for neighbouring "0" grass tiles,
-      if(grid[y-i][x-j]===0){
-        if(!(i===1&&j===i)){
-          let px = x+j;let py = y-i;
-          peeps.push([px*tilesize,py*tilesize,tilesize/4,1]);
-          return true;
-        }
-      }
+  if(flip >= 50){
+    console.log(grid[Math.floor(y)][Math.floor(x+tog)]); // throwing errors??
+    if(traversable.includes(grid[Math.floor(y)][Math.floor(x+tog)])){
+      console.log(grid[Math.floor(y)][Math.floor(x+tog)]);
+      return true;
     }
   }
-  return false;
+  else if(flip < 50){
+    if(traversable.includes(grid[Math.floor(y+tog)][Math.floor(x)])){
+      console.log("move y" + grid[Math.floor(y+tog)][Math.floor(x)]);
+      return true;
+    }
+  }
+  else{
+    return false;
+  }
 }
 
 
@@ -124,7 +127,7 @@ function makeGrid(array){
   for(let y= 0;y < mapSizeY;y++){
     array.push([]);
     for(let x=0; x < mapSizeX;x++){
-      array[y].push(Math.floor(random(0,3)));
+      array[y].push(Math.floor(0)); //floor random(0,3)
     }
   }
 }
