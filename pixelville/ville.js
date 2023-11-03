@@ -43,13 +43,18 @@ function mouseClicked(){
     grid[y][x]=3;
     grassCheck(grid,x,y); // to make peeps
   }
+  if(grid[y][x]===1){
+    grid[y][x]=0;
+  }
+  if(grid[y][x]===2){
+    grid[y][x]=5;
+  }
 }
-
 function displayFolk(array){ // draw peeps
   for(let y= 0;y < array.length;y++){
     if(array[y][3]===1){ //live
       noStroke();
-      fill(120,0,70);
+      fill(array[y][4][0],array[y][4][1],array[y][4][2]);
       rect(array[y][0], array[y][1], array[y][2], array[y][2]); // [y][0] and [y][1] are normally *tilesize
     }
     else if(array[y][3]===0){//dead
@@ -67,17 +72,17 @@ function moveFolk(array){
       let m = Math.floor(random(-1,2));
       let x = random(100);
       // if(!array[y][3]===0){
-        if(x > 50){
-          if(bactpos(y,m,x)===true){  // give bactpos m
-            //grid[Math.floor(array[y][1]/tilesize)][Math.floor(array[y][0]/tilesize)] OR grid[y][0] old
-            nextFrame[y][0] +=m*1;
-          }
+      if(x >= 50){
+        if(bactpos(y,m,x)===true){  // give bactpos m
+          //grid[Math.floor(array[y][1]/tilesize)][Math.floor(array[y][0]/tilesize)] OR grid[y][0] old
+          nextFrame[y][0] +=m*1;
         }
-        if(x < 50){
-          if(grid[Math.floor(array[y][1]/tilesize)][Math.floor(array[y][0]/tilesize)]+m*1===0){
-            nextFrame[y][1] +=m*1;
-          }
+      }
+      else if(x < 50){
+        if(bactpos(y,m,x)===true){ //grid[Math.floor(array[y][1]/tilesize)][Math.floor(array[y][0]/tilesize)]+m*1===0
+          nextFrame[y][1] +=m*1;
         }
+      }
       // }
     }
     array = nextFrame;
@@ -87,16 +92,15 @@ function moveFolk(array){
 function bactpos(bact,tog,flip){ // FINISH LATER
   let x = peeps[bact][0];
   let y = peeps[bact][1];
+
   if(flip >= 50){
-    console.log(grid[Math.floor(y)][Math.floor(x+tog)]); // throwing errors??
-    if(traversable.includes(grid[Math.floor(y)][Math.floor(x+tog)])){
-      console.log(grid[Math.floor(y)][Math.floor(x+tog)]);
+    console.log(grid[Math.floor(y/tilesize)][Math.floor((x+tog)/tilesize)]); // throwing errors?? 
+    if(traversable.includes(grid[Math.floor(y/tilesize)][Math.floor((x+tog)/tilesize)])){
       return true;
     }
   }
   else if(flip < 50){
-    if(traversable.includes(grid[Math.floor(y+tog)][Math.floor(x)])){
-      console.log("move y" + grid[Math.floor(y+tog)][Math.floor(x)]);
+    if(traversable.includes(grid[Math.floor((y+tog)/tilesize)][Math.floor(x/tilesize)])){
       return true;
     }
   }
@@ -114,7 +118,13 @@ function grassCheck(array,lr,ud){
       if(array[y-i][x-j]===0){
         if(!(i===1&&j===i)){
           let px = x+j;let py = y-i;
-          peeps.push([px*tilesize,py*tilesize,tilesize/4,1]);
+          if(x+1 > mapSizeX/2){
+            peeps.push([px*tilesize,py*tilesize,tilesize/4,1,[50,0,170]]);
+          }
+          else{
+            peeps.push([px*tilesize,py*tilesize,tilesize/4,1,[120,0,70]]);
+          }
+          
           return true;
         }
       }
@@ -127,7 +137,7 @@ function makeGrid(array){
   for(let y= 0;y < mapSizeY;y++){
     array.push([]);
     for(let x=0; x < mapSizeX;x++){
-      array[y].push(Math.floor(0)); //floor random(0,3)
+      array[y].push(Math.floor(random(0,3))); //floor random(0,3)
     }
   }
 }
@@ -137,27 +147,53 @@ function showGrid(array){ // building the map
     for(let x=0; x < mapSizeX;x++){
       if(array[y][x]===0){ //grass
         noStroke();
-        fill(0,80,0);
+        if(x+1 > mapSizeX/2){
+          fill(0,35,0);
+        }
+        else{
+          fill(0,90,0);
+        }
         rect(x*tilesize,y*tilesize,tilesize,tilesize);
       }
       else if(array[y][x]===1){//forest
         noStroke();
-        fill(0,50,0);
+        if(x+1 > mapSizeX/2){
+          fill(142,45,0);
+        }
+        else{
+          fill(0,60,0);
+        }
         rect(x*tilesize,y*tilesize,tilesize,tilesize);
       }
       else if(array[y][x]===2){//water
         noStroke();
-        fill(0,0,random(110,131));
+        if(x+1 > mapSizeX/2){
+          fill(0,0,random(75,96));
+        }
+        else{
+          fill(0,0,random(110,131));
+        }
+
         rect(x*tilesize,y*tilesize,tilesize,tilesize);
       }
       else if(array[y][x]===3){//houses
         noStroke();
-        fill(120,60,40);
+        if(x+1 > mapSizeX/2){
+          fill(160,120,120);
+        }
+        else{
+          fill(120,60,40);
+        }
         rect(x*tilesize,y*tilesize,tilesize,tilesize);
       }
       else if(array[y][x]===4){//farm
         noStroke();
         fill(60,40,40);
+        rect(x*tilesize,y*tilesize,tilesize,tilesize);
+      }
+      else if(array[y][x]===5){//bridge
+        noStroke();
+        fill(60);
         rect(x*tilesize,y*tilesize,tilesize,tilesize);
       }
     }
