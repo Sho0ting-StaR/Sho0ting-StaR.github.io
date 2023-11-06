@@ -5,9 +5,10 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
+let auto = false;
 let grid = [];
 let mapSizeY = 36;
-let mapSizeX = 80;
+let mapSizeX = 72;
 let tilesize;
 let peeps = [];
 let traversable = [0,4,5];
@@ -30,10 +31,11 @@ function draw() {
   if(frameCount%12===0){ // equation for water shimmer
     showGrid(grid);
   }
-  if(frameCount%8===0){
+  if(frameCount%6===0){
     moveFolk(peeps);
   }
   displayFolk(peeps);
+
 }
 
 function mouseClicked(){
@@ -50,6 +52,32 @@ function mouseClicked(){
     grid[y][x]=5;
   }
 }
+
+function keyClicked( ){
+  auto !== auto;
+}
+
+function build(array,lr,ud,ReqT){
+  let x = lr; //Math.floor(lr/tilesize);
+  let y = ud; //Math.floor(ud/tilesize);
+  for(let i = -1;i<2;i++){
+    for(let j = -1;j<2;j++){ // check for neighbouring "0" grass tiles,
+      if(grid[y-i][x-j]===0){ 
+        if(!(i===1&&j===i)){
+          let px = x+j;let py = y-i;
+          array[y-i][x-j]=3;
+          if(x+1 > mapSizeX/2){
+            peeps.push([px*tilesize,py*tilesize,tilesize/4,1,[120,0,70]]);
+          }
+          else{
+            peeps.push([px*tilesize,py*tilesize,tilesize/4,1,[0,0,210]]);
+          }
+        }
+      }
+    }
+  }
+}
+
 function displayFolk(array){ // draw peeps
   for(let y= 0;y < array.length;y++){
     if(array[y][3]===1){ //live
@@ -73,13 +101,13 @@ function moveFolk(array){
       let x = random(100);
       // if(!array[y][3]===0){
       if(x >= 50){
-        if(bactpos(y,m,x)===true){  // give bactpos m
+        if(bactpos(nextFrame,y,m,x)===true){  // give bactpos m
           //grid[Math.floor(array[y][1]/tilesize)][Math.floor(array[y][0]/tilesize)] OR grid[y][0] old
           nextFrame[y][0] +=m*1;
         }
       }
       else if(x < 50){
-        if(bactpos(y,m,x)===true){ //grid[Math.floor(array[y][1]/tilesize)][Math.floor(array[y][0]/tilesize)]+m*1===0
+        if(bactpos(nextFrame,y,m,x)===true){ //grid[Math.floor(array[y][1]/tilesize)][Math.floor(array[y][0]/tilesize)]+m*1===0
           nextFrame[y][1] +=m*1;
         }
       }
@@ -89,9 +117,12 @@ function moveFolk(array){
   }
 }
 
-function bactpos(bact,tog,flip){ // FINISH LATER
+function bactpos(next,bact,tog,flip){ // FINISH LATER
   let x = peeps[bact][0];
   let y = peeps[bact][1];
+  // build(next,Math.floor(x/tilesize),Math.floor(y/tilesize),traversable,);
+  grassCheck(next,next[Math.floor(y/tilesize)][Math.floor(y/tilesize)]);
+  console.log("AHHHHHHHHH");
 
   if(flip >= 50){
     console.log(grid[Math.floor(y/tilesize)][Math.floor((x+tog)/tilesize)]); // throwing errors?? 
@@ -119,10 +150,10 @@ function grassCheck(array,lr,ud){
         if(!(i===1&&j===i)){
           let px = x+j;let py = y-i;
           if(x+1 > mapSizeX/2){
-            peeps.push([px*tilesize,py*tilesize,tilesize/4,1,[50,0,170]]);
+            peeps.push([px*tilesize,py*tilesize,tilesize/4,1,[120,0,70]]);
           }
           else{
-            peeps.push([px*tilesize,py*tilesize,tilesize/4,1,[120,0,70]]);
+            peeps.push([px*tilesize,py*tilesize,tilesize/4,1,[0,0,210]]);
           }
           
           return true;
