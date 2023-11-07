@@ -5,6 +5,7 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
+let roles = ["houser","bridger","feller"];
 let auto = false;
 let grid = [];
 let mapSizeY = 36;
@@ -35,7 +36,9 @@ function draw() {
     moveFolk(peeps);
   }
   displayFolk(peeps);
-
+  if(frameCount%400===0){
+    build(peeps);
+  }
 }
 
 function mouseClicked(){
@@ -43,7 +46,7 @@ function mouseClicked(){
   let y = Math.floor(mouseY/tilesize);
   if(grid[y][x]===0){
     grid[y][x]=3;
-    grassCheck(grid,x,y); // to make peeps
+    grassCheck(grid,x,y,0); // to make peeps
   }
   if(grid[y][x]===1){
     grid[y][x]=0;
@@ -53,25 +56,34 @@ function mouseClicked(){
   }
 }
 
-function keyClicked( ){
+function keyClicked(){
   auto !== auto;
 }
 
-function build(array,lr,ud,ReqT){
-  let x = lr; //Math.floor(lr/tilesize);
-  let y = ud; //Math.floor(ud/tilesize);
-  for(let i = -1;i<2;i++){
-    for(let j = -1;j<2;j++){ // check for neighbouring "0" grass tiles,
-      if(grid[y-i][x-j]===0){ 
-        if(!(i===1&&j===i)){
-          let px = x+j;let py = y-i;
-          array[y-i][x-j]=3;
-          if(x+1 > mapSizeX/2){
-            peeps.push([px*tilesize,py*tilesize,tilesize/4,1,[120,0,70]]);
-          }
-          else{
-            peeps.push([px*tilesize,py*tilesize,tilesize/4,1,[0,0,210]]);
-          }
+function randomInt(p1,p2){
+  if(p2-p1 !==0){
+    let num = random(p1,p2);
+    return Math.floor(num);
+  }
+  return 0;
+}
+
+function build(array){ // UPDATE FUNCTION NAME
+  let nextFrame = structuredClone(array);
+  if(array.length!==0){ 
+    let l = nextFrame[randomInt(0,nextFrame.length)];
+    let x = l[0];
+    let y = l[1];
+    x = Math.floor(x/tilesize);
+    y = Math.floor(y/tilesize);
+    let x2 = x;
+    let y2 = y;
+    for(let i = -1;i<2;i++){
+      for(let j = -1;j<2;j++){ // check for neighbouring "0" grass tiles,
+        if(grid[y2-i][x2-j]===0){
+          if(!(i===1&&j===i)){
+            return grassCheck(grid,x2-j,y2-i,0);
+          } // ADD OTHER BUILD OPTIONS
         }
       }
     }
@@ -93,7 +105,7 @@ function displayFolk(array){ // draw peeps
   }
 }
 
-function moveFolk(array){
+function moveFolk(array){ // ADD DEATH FROM CRUSHING TO REMOVE FROM PEEPS
   let nextFrame = array;
   for(let y= 0;y < array.length;y++){
     for(let z=0;z<array[y].length;z++){
@@ -121,9 +133,6 @@ function bactpos(next,bact,tog,flip){ // FINISH LATER
   let x = peeps[bact][0];
   let y = peeps[bact][1];
   // build(next,Math.floor(x/tilesize),Math.floor(y/tilesize),traversable,);
-  grassCheck(next,next[Math.floor(y/tilesize)][Math.floor(y/tilesize)]);
-  console.log("AHHHHHHHHH");
-
   if(flip >= 50){
     console.log(grid[Math.floor(y/tilesize)][Math.floor((x+tog)/tilesize)]); // throwing errors?? 
     if(traversable.includes(grid[Math.floor(y/tilesize)][Math.floor((x+tog)/tilesize)])){
@@ -140,22 +149,27 @@ function bactpos(next,bact,tog,flip){ // FINISH LATER
   }
 }
 
+function randomRole(){
+  let r = randomInt(0,roles.length);
+  return roles[r];
+}
 
-function grassCheck(array,lr,ud){
-  let x = lr; //Math.floor(lr/tilesize);
-  let y = ud; //Math.floor(ud/tilesize);
+
+function grassCheck(array,lr,ud,req){ // UPDATE FUNCTION NAME
+  let x = lr; 
+  let y = ud; 
   for(let i = -1;i<2;i++){
     for(let j = -1;j<2;j++){ // check for neighbouring "0" grass tiles,
-      if(array[y-i][x-j]===0){
+      if(array[y-i][x-j]===req){
         if(!(i===1&&j===i)){
           let px = x+j;let py = y-i;
           if(x+1 > mapSizeX/2){
-            peeps.push([px*tilesize,py*tilesize,tilesize/4,1,[120,0,70]]);
+            peeps.push([px*tilesize,py*tilesize,tilesize/4,1,[120,0,70],randomRole()]);
           }
           else{
-            peeps.push([px*tilesize,py*tilesize,tilesize/4,1,[0,0,210]]);
+            peeps.push([px*tilesize,py*tilesize,tilesize/4,1,[0,0,210],randomRole()]);
           }
-          
+          array[y-i][x-j]=3;
           return true;
         }
       }
