@@ -44,10 +44,10 @@ function draw() {
 function mouseClicked(){
   let x = Math.floor(mouseX/tilesize);
   let y = Math.floor(mouseY/tilesize);
-  if(grid[y][x]===0){
+  if(grid[y][x]===0||grid[y][x]===3){
     grid[y][x]=5;
     // for(let s = 0; s<4;s++){
-      grassCheck(grid,x,y,0,5,false); // to make peeps
+    grassCheck(grid,x,y,0,5,false); // to make peeps
     // }
   }
   if(grid[y][x]===1){
@@ -91,7 +91,7 @@ function build(array){ // UPDATE FUNCTION NAME
             }
           }
           else if(l[5] === "carpenter"){
-            if(grid[y2-i][x2-j]===0){
+            if(grid[y2-i][x2-j]===0||grid[y2-i][x2-j]===3){
               if(!(i===1&&j===i)){
                 return grassCheck(grid,x2-j,y2-i,0,5,true);
               }
@@ -131,14 +131,14 @@ function displayFolk(array){ // draw peeps
       fill(array[y][4][0],array[y][4][1],array[y][4][2]);
       rect(array[y][0], array[y][1], array[y][2], array[y][2]); // [y][0] and [y][1] are normally *tilesize
       if(array[y][5]==="carpenter"){
-      fill(130,40,100);
+        fill(170,40,190);
       }
       if(array[y][5]==="stonemason"){
         fill(220);
-        }
+      }
       if(array[y][5]==="farmer"){
-        fill(0,130,0);
-        }
+        fill(0);
+      }
       rect(array[y][0]+array[y][2]/4, array[y][1]+array[y][2]/4, array[y][2]/2, array[y][2]/2);
     }
     else if(array[y][3]===0){//dead
@@ -174,24 +174,31 @@ function moveFolk(array){ // ADD DEATH FROM CRUSHING TO REMOVE FROM PEEPS
   }
 }
 
-function fixpos(){ // UPDATE FUNCTION NAME
+function fixpos(){
   for(let l = 0; l< peeps.length;l++){
     let bact = structuredClone(peeps[l]);
     let x = Math.floor(peeps[l][0]/tilesize); 
     let y = Math.floor(peeps[l][1]/tilesize); 
+    console.log(y,x,grid[y][x]);
     if(grid[y][x]===5){
+      let tru = false;
       for(let i = -1;i<2;i++){
-        for(let j = -1;j<2;j++){ // check for neighbouring "0" grass tiles,
-          if(traversable.includes(grid[y-i][x-j])){
-            if(!(i===1&&j===i)){
-              bact[0] = x-j;
-              bact[1] = y-i;
+        if(tru!==true){
+          for(let j = -1;j<2;j++){ // check for neighbouring "0" grass tiles,
+            if(traversable.includes(grid[y-i][x-j])){
+              if(!(i===1&&j===i)){
+                bact[0] = x-j;
+                bact[1] = y-i;
+                tru = true;
+                console.log(bact[0],bact[1]); // find why these values are lost
+              }
             }
           }
         }
       }
     }
-    // peeps[l] = bact[l];
+    // console.log(peeps[l]);
+    peeps[l] = structuredClone(bact);
   }
 }
 
@@ -232,34 +239,34 @@ function grassCheck(array,lr,ud,req,trs,rnd){ // UPDATE FUNCTION NAME
           let px = x-j;let py = y-i;
           if(trs ===5){
             if(rnd){
-          if(x >= mapSizeX/2&&y < mapSizeY/2){
-              peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[120,0,70],randomRole()]);
-            }  
-          else if(y >= mapSizeY/2&&x<mapSizeX/2){
-              peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[180,60,0],randomRole()]);
-          }
-          else if(y < mapSizeY/2&&x < mapSizeX/2){
-              peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[0,0,210],randomRole()]); 
-            // 0 x of peep, 1 y of peep, 2 size, 3 living(?), 4 colour, 5 role 
+              if(x >= mapSizeX/2&&y < mapSizeY/2){
+                peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[120,0,70],randomRole()]);
+              }  
+              else if(y >= mapSizeY/2&&x<mapSizeX/2){
+                peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[180,60,0],randomRole()]);
+              }
+              else if(y < mapSizeY/2&&x < mapSizeX/2){
+                peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[0,0,210],randomRole()]); 
+              // 0 x of peep, 1 y of peep, 2 size, 3 living(?), 4 colour, 5 role 
+              }
+              else{
+                peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[235,40,0],randomRole()]); 
+              }
             }
-          else{
-            peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[235,40,0],randomRole()]); 
-          }
-          }
-          else if(!rnd){
-            if(x >= mapSizeX/2&&y < mapSizeY/2){
-              peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[120,0,70],roles[0]]);
-            }  
-          else if(y >= mapSizeY/2&&x<mapSizeX/2){
-              peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[180,60,0],roles[0]]);
-          }
-          else if(y < mapSizeY/2&&x < mapSizeX/2){
-              peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[0,0,210],roles[0]]); 
+            else if(!rnd){
+              if(x >= mapSizeX/2&&y < mapSizeY/2){
+                peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[120,0,70],roles[0]]);
+              }  
+              else if(y >= mapSizeY/2&&x<mapSizeX/2){
+                peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[180,60,0],roles[0]]);
+              }
+              else if(y < mapSizeY/2&&x < mapSizeX/2){
+                peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[0,0,210],roles[0]]); 
+              }
+              else{
+                peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[235,40,0],roles[0]]); 
+              }
             }
-          else{
-            peeps.push([px*tilesize,py*tilesize,tilesize/3,1,[235,40,0],roles[0]]); 
-          }
-          }
           }
           array[y-i][x-j]=trs;
           return true;
