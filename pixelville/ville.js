@@ -32,7 +32,7 @@ function draw() {
     showGrid(grid);
   }
   if(frameCount%9===0){
-    fixpos();
+    // fixpos();
     moveFolk(peeps);
   }
   displayFolk(peeps);
@@ -214,7 +214,7 @@ function bactpos(next,bact,tog,flip){ // FINISH LATER
     }
   }
   else if(flip < 50){
-    if(traversable.includes(grid[Math.floor((y+tog)/tilesize)][Math.floor(x/tilesize)])){
+    if(traversable.includes(grid[Math.floor((y+tog)/tilesize)][Math.floor(x/tilesize)])){ // error reading 20 ***
       return true;
     }
   }
