@@ -5,6 +5,8 @@
 -[ball obj not](03-bobj)
 -[perlinnoise](pnball06)
 -[terraindemo](demo09)
+-[dog OOP demo](demo-OOP)
+-[lil guy OOP](demo-OOP2)
 
 ## Projects
 - [lightgame](light-game)
