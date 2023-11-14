@@ -3,7 +3,9 @@
 // Date
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// - i made jobs randomized to further simulate the internal rng of society, there will always be imbalances 
+// in talent and so this is a simple representation of how a basic culture may deal with this struggle
+// in addition, i used previous coding ideas with 2d arrays to power new concepts such as
 
 let roles = ["carpenter","stonemason","farmer"];
 let auto = false;
