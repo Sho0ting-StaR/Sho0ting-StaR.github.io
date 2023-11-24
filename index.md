@@ -9,6 +9,7 @@
 -[lil guy OOP](demo-OOP2)
 -[ball OOOOP](demo-OOP3)
 -[linkedballs](demo-OOP4)
+-[inheritance](demo-OOP5)
 
 ## Projects
 - [lightgame](light-game)
