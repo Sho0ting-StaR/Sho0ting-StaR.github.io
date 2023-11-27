@@ -10,6 +10,7 @@
 -[ball OOOOP](demo-OOP3)
 -[linkedballs](demo-OOP4)
 -[inheritance](demo-OOP5)
+-[collide2d](demo-library)
 
 ## Projects
 - [lightgame](light-game)
