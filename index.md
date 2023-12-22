@@ -11,6 +11,7 @@
 -[linkedballs](demo-OOP4)
 -[inheritance](demo-OOP5)
 -[collide2d](demo-library)
+-[recursioncirc](demo-circ)
 
 ## Projects
 - [lightgame](light-game)
