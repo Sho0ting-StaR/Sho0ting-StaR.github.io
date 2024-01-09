@@ -12,6 +12,7 @@
 -[inheritance](demo-OOP5)
 -[collide2d](demo-library)
 -[recursioncirc](demo-circ)
+-[sierpinski triangle](triangle)
 
 ## Projects
 - [lightgame](light-game)
