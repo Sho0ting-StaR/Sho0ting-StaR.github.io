@@ -20,3 +20,4 @@
 - [assignment3](grid2d)
 - [gridneighbours](neigh)
 - [2Dassignment](pixelville)
+- [spookygame](spookygame)
