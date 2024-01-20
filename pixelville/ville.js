@@ -15,6 +15,11 @@ let mapSizeX = 72;
 let tilesize;
 let peeps = [];
 let traversable = [0,3,6,7];
+let ri;
+
+function preload(){
+  ri = loadImage("png-sprites/rat.png");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -41,6 +46,7 @@ function draw() {
   if(frameCount%300===0){
     build(peeps);
   }
+  image(ri,190,190);
 }
 
 function mouseClicked(){
